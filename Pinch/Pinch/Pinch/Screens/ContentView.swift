@@ -183,6 +183,12 @@ struct ContentView: View {
                     .offset(x: isDrawerOpen ? 20 : 215)
                 , alignment: .topTrailing
             )
+            .onTapGesture {
+                guard isDrawerOpen else { return }
+                withAnimation(.easeOut) {
+                    isDrawerOpen.toggle()
+                }
+            }
         }
         .navigationViewStyle(.stack)
     }
