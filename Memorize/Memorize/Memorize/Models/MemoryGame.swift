@@ -11,6 +11,7 @@ import UIKit
 struct MemoryGame<CardContent> where CardContent: Equatable {
     
     private(set) var cards: [Card]
+    private(set) var score: Int
     
     private var indexOfTheFacedUpCard: Int?
     
@@ -23,6 +24,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         
         self.cards.shuffle()
+        self.score = 0
     }
     
     mutating func choose(_ card: Card) {
@@ -32,6 +34,13 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             if cards[index].content == cards[potentialMatchIndex].content {
                 cards[index].isMatched = true
                 cards[potentialMatchIndex].isMatched = true
+                score += 2
+            } else {
+                if !cards[index].isSeen {
+                    cards[index].isSeen.toggle()
+                } else if cards[index].isSeen && !cards[index].isMatched {
+                    score -= 1
+                }
             }
             
             indexOfTheFacedUpCard = nil
@@ -39,7 +48,12 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             for index in cards.indices {
                 cards[index].isFaceUp = false
             }
+            
             indexOfTheFacedUpCard = index
+            
+            if !cards[index].isSeen {
+                cards[index].isSeen.toggle()
+            }
         }
         
         cards[index].isFaceUp.toggle()
@@ -52,6 +66,7 @@ extension MemoryGame {
         var id: Int
         var isFaceUp: Bool = false
         var isMatched: Bool = false
+        var isSeen: Bool = false
         var content: CardContent
     }
 }

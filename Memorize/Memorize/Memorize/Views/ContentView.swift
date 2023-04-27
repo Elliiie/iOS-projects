@@ -19,6 +19,10 @@ struct ContentView: View {
                     .foregroundColor(viewModel.color)
                 
                 Spacer()
+                
+                Text("Score: " + viewModel.score)
+                    .font(.title)
+                    .foregroundColor(viewModel.color)
             }
             .padding(.horizontal)
             .padding(.top)
