@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     
-    private(set) var cards: Array<Card>
+    private(set) var cards: [Card]
     
     private var indexOfTheFacedUpCard: Int?
     
@@ -43,6 +44,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         
         cards[index].isFaceUp.toggle()
     }
+}
+
+extension MemoryGame {
     
     struct Card: Identifiable {
         var id: Int

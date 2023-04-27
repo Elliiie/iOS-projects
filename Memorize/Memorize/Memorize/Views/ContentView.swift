@@ -13,6 +13,16 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            HStack {
+                Text("Theme: " + viewModel.themeName)
+                    .font(.title)
+                    .foregroundColor(viewModel.color)
+                
+                Spacer()
+            }
+            .padding(.horizontal)
+            .padding(.top)
+            
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                     ForEach(viewModel.cards) { card in
@@ -24,8 +34,16 @@ struct ContentView: View {
                     }
                 }
                 .padding(.horizontal)
-                .foregroundColor(.red)
+                .foregroundColor(viewModel.color)
             }
+            
+            Button {
+                viewModel.newGameTapped()
+            } label: {
+                Text("New game")
+                    .font(.title)
+            }
+
         }
     }
 }
@@ -39,31 +57,5 @@ struct ContentView_Previews: PreviewProvider {
         
         ContentView(viewModel: game)
             .preferredColorScheme(.dark)
-    }
-}
-
-
-struct CardView: View {
-    
-    let card: MemoryGame<String>.Card
-    
-    var body: some View {
-        ZStack {
-            let shape = RoundedRectangle(cornerRadius: 20)
-            
-            if card.isFaceUp {
-                shape.fill().foregroundColor(.white)
-                
-                RoundedRectangle(cornerRadius: 20)
-                    .strokeBorder(lineWidth: 3)
-                
-                Text(card.content)
-                    .font(.largeTitle)
-            } else if card.isMatched {
-                shape.opacity(0)
-            } else {
-                shape.fill()
-            }
-        }
     }
 }
