@@ -9,16 +9,17 @@ import Foundation
 import SwiftUI
 
 class EmojiMemoryGameModel: ObservableObject {
-        
+    
+    typealias Card = MemoryGame<String>.Card
     @Published private var model = createMemoryGame(using: .transport)
     @Published private var theme: Theme = .transport
     
-    var cards: Array<MemoryGame<String>.Card> { model.cards }
+    var cards: Array<Card> { model.cards }
     var themeName: String { theme.rawValue.capitalized }
     var color: Color { theme.color }
     var score: String { String(model.score) }
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    func choose(_ card: Card) {
         model.choose(card)
     }
     
@@ -29,7 +30,7 @@ class EmojiMemoryGameModel: ObservableObject {
 }
 
 extension EmojiMemoryGameModel {
-    static func createMemoryGame(using theme: Theme) -> MemoryGame<String> {
+    private static func createMemoryGame(using theme: Theme) -> MemoryGame<String> {
         let numberOfPairsToShow = theme.numberOfPairsToShow > theme.emojis.count ? theme.emojis.count : theme.numberOfPairsToShow
         return .init(numberOfPairsOfCards: numberOfPairsToShow) { index in
             theme.emojis[index]
