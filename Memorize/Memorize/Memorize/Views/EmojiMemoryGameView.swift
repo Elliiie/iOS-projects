@@ -7,32 +7,29 @@
 
 import SwiftUI
 
+private struct LayoutConstants {
+    static let GameInfoViewHeight: CGFloat = 70
+    static let CardViewOffset: CGFloat = 4
+    static let MainButtonHeight: CGFloat = 60
+    static let CardViewAspectRatio: CGFloat = 2/3
+}
+
 struct EmojiMemoryGameView: View {
     
     @ObservedObject var game: EmojiMemoryGameModel
     
     var body: some View {
         VStack {
-            HStack {
-                Text("Theme: " + game.themeName)
-                    .font(.title)
-                    .foregroundColor(game.color)
-                
-                Spacer()
-                
-                Text("Score: " + game.score)
-                    .font(.title)
-                    .foregroundColor(game.color)
-            }
-            .padding(.horizontal)
-            .padding(.top)
+            GameInfoView(data: .init(themeName: game.themeName, score: game.score))
+                .padding(.top)
+                .frame(height: LayoutConstants.GameInfoViewHeight)
             
-            AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
+            AspectVGrid(items: game.cards, aspectRatio: LayoutConstants.CardViewAspectRatio) { card in
                 if card.isMatched && !card.isFaceUp {
                     Rectangle().opacity(0)
                 } else {
                     CardView(card: card)
-                        .padding(4)
+                        .padding(LayoutConstants.CardViewOffset)
                         .onTapGesture {
                             game.choose(card)
                         }
@@ -41,13 +38,8 @@ struct EmojiMemoryGameView: View {
                 .padding(.horizontal)
                 .foregroundColor(game.color)
             
-            Button {
-                game.newGameTapped()
-            } label: {
-                Text("New game")
-                    .font(.title)
-            }
-
+            MainButton(data: .init(title: "New Game", tapHandler: game.newGameTapped))
+                .frame(height: LayoutConstants.MainButtonHeight)
         }
     }
 }

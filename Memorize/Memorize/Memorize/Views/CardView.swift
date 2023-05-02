@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+private struct LayoutConstants {
+    static let FontScale: CGFloat = 0.7
+    static let PieOffset: CGFloat = 5
+    static let PieOpacity: CGFloat = 0.5
+    static let FontSize: CGFloat = 32
+}
+
 struct CardView: View {
     
     let card: MemoryGame<String>.Card
@@ -14,39 +21,22 @@ struct CardView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                let shape = RoundedRectangle(cornerRadius: DrawingConstants.CornerRadius)
+                Pie(startAngle: .degrees(0 - 90), endAngle: .degrees(110 - 90))
+                    .padding(LayoutConstants.PieOffset)
+                    .opacity(LayoutConstants.PieOpacity)
                 
-                if card.isFaceUp {
-                    shape.fill().foregroundColor(.white)
-                    
-                    RoundedRectangle(cornerRadius: DrawingConstants.CornerRadius)
-                        .strokeBorder(lineWidth: DrawingConstants.LineWidth)
-                    
-                    Pie(startAngle: .degrees(0 - 90), endAngle: .degrees(110 - 90))
-                        .padding(DrawingConstants.PieOffset)
-                        .opacity(DrawingConstants.PieOpacity)
-                    
-                    Text(card.content)
-                        .font(font(in: geometry.size))
-                } else if card.isMatched {
-                    shape.opacity(0)
-                } else {
-                    shape.fill()
-                }
+                Text(card.content)
+                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+                    .animation(.linear(duration: 1).repeatForever(autoreverses: false))
+                    .font(.system(size: LayoutConstants.FontSize))
+                    .scaleEffect(scale(thatFits: geometry.size))
             }
+            .cardify(isFaceUp: card.isFaceUp)
         }
     }
     
-    private func font(in size: CGSize) -> Font {
-        .system(size: min(size.width, size.height) * DrawingConstants.FontScale)
-    }
-    
-    private struct DrawingConstants {
-        static let CornerRadius: CGFloat = 10
-        static let LineWidth: CGFloat = 2
-        static let FontScale: CGFloat = 0.7
-        static let PieOffset: CGFloat = 5
-        static let PieOpacity: CGFloat = 0.5
+    private func scale(thatFits size: CGSize) -> CGFloat {
+        min(size.width, size.height) / (LayoutConstants.FontSize / LayoutConstants.FontScale)
     }
 }
 
