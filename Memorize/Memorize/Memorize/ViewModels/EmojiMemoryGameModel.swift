@@ -27,6 +27,10 @@ class EmojiMemoryGameModel: ObservableObject {
         theme = Theme.themesList.randomElement() ?? .animals
         model = EmojiMemoryGameModel.createMemoryGame(using: theme)
     }
+    
+    func shuffle() {
+        model.shuffle()
+    }
 }
 
 extension EmojiMemoryGameModel {

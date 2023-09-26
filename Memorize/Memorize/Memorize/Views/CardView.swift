@@ -18,10 +18,24 @@ struct CardView: View {
     
     let card: MemoryGame<String>.Card
     
+    @State private var animatedBonusRemaining: Double = 0
+    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Pie(startAngle: .degrees(0 - 90), endAngle: .degrees(110 - 90))
+                Group {
+                    if card.isConsumingBonusTime {
+                        Pie(startAngle: .degrees(0 - 90), endAngle: .degrees((1 - animatedBonusRemaining) * 360 - 90))
+                            .onAppear {
+                                animatedBonusRemaining = card.bonusRemaining
+                                withAnimation(.linear(duration: card.bonusTimeRemaining)) {
+                                    animatedBonusRemaining = 0
+                                }
+                            }
+                    } else {
+                        Pie(startAngle: .degrees(0 - 90), endAngle: .degrees((1 - card.bonusRemaining) * 360 - 90))
+                    }
+                }
                     .padding(LayoutConstants.PieOffset)
                     .opacity(LayoutConstants.PieOpacity)
                 

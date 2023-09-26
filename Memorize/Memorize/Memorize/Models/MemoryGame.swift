@@ -59,16 +59,76 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             }
         }
     }
+    
+    mutating func shuffle() {
+        cards.shuffle()
+    }
 }
 
 extension MemoryGame {
     
     struct Card: Identifiable {
         let id: Int
-        var isFaceUp = false
-        var isMatched = false
+        var isFaceUp = false {
+            didSet {
+                if isFaceUp {
+                    startsUsingBonusTime()
+                } else {
+                    stopUsingBonusTime()
+                }
+            }
+        }
+        var isMatched = false {
+            didSet {
+                stopUsingBonusTime()
+            }
+        }
         var isSeen = false
         let content: CardContent
+        
+        // MARK: Bonus time logic
+        
+        var bonusTimeLimit: TimeInterval = 6
+        
+        // how long the card has ever been face up
+        private var faceUpTime: TimeInterval {
+            guard let lastFaceUpDate = self.lastFaceUpDate else {
+                return pastFaceUpTime
+            }
+            return pastFaceUpTime + Date().timeIntervalSince(lastFaceUpDate)
+        }
+        
+        // the last time this card was turned face up (and is still face up)
+        var lastFaceUpDate: Date?
+        // the accumulated time the card has been face up in the past
+        var pastFaceUpTime: TimeInterval = 0
+
+        // how much time left before the bonus runs out
+        var bonusTimeRemaining: TimeInterval {
+            max(0, bonusTimeLimit - faceUpTime)
+        }
+        // percentage of the bonus time remaining
+        var bonusRemaining: Double {
+            (bonusTimeLimit > 0 && bonusTimeRemaining > 0) ? bonusTimeRemaining/bonusTimeLimit : 0
+        }
+        
+        var hasEarnedBonus: Bool {
+            isMatched && bonusTimeRemaining > 0
+        }
+        
+        var isConsumingBonusTime: Bool {
+            isFaceUp && !isMatched && bonusTimeRemaining > 0
+        }
+        
+        private mutating func startsUsingBonusTime() {
+            guard isConsumingBonusTime, lastFaceUpDate == nil else { return }
+            lastFaceUpDate = Date()
+        }
+        
+        private mutating func stopUsingBonusTime() {
+            pastFaceUpTime = faceUpTime
+            lastFaceUpDate = nil
+        }
     }
 }
 

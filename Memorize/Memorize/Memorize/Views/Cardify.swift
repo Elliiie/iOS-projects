@@ -13,15 +13,27 @@ private struct LayoutConstants {
     static let LineWidth: CGFloat = 2
 }
 
-struct Cardify: ViewModifier {
+struct Cardify: AnimatableModifier {
+        
+    var rotation: Double
     
-    var isFaceUp: Bool
+    var animatableData: Double {
+        get {
+            return rotation
+        } set {
+            rotation = newValue
+        }
+    }
+    
+    init(isFaceUp: Bool) {
+        self.rotation = isFaceUp ? 0 : 180
+    }
     
     func body(content: Content) -> some View {
         ZStack {
             let shape = RoundedRectangle(cornerRadius: LayoutConstants.CornerRadius)
             
-            if isFaceUp {
+            if rotation < 90 {
                 shape.fill().foregroundColor(.white)
                 shape.strokeBorder(lineWidth: LayoutConstants.LineWidth)
             } else {
@@ -29,8 +41,9 @@ struct Cardify: ViewModifier {
             }
             
             content
-                .opacity(isFaceUp ? 1 : 0)
+                .opacity(rotation < 90 ? 1 : 0)
         }
+        .rotation3DEffect(Angle.degrees(rotation), axis: (x: 0, y: 1, z: 0))
     }
 }
 

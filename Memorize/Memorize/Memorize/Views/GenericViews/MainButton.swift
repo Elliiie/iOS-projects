@@ -23,29 +23,26 @@ struct MainButton: View {
     var data: ButtonData
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
+        VStack {
+            Spacer()
+            
+            Button {
+                data.tapHandler()
+            } label: {
                 Spacer()
                 
-                Button {
-                    data.tapHandler()
-                } label: {
-                    Spacer()
-                    
-                    Text(data.title)
-                        .font(.title)
-                        .padding(LayoutConstants.TextOffset)
-                        .foregroundColor(.black)
-                    
-                    Spacer()
-                }
-                .background(
-                    RoundedRectangle(cornerRadius: LayoutConstants.BackgroundCornerRadius)
-                        .frame(width: geometry.size.width / 2)
-                        .foregroundColor(.gray)
-                        .opacity(LayoutConstants.BackgroundOpacity)
-                )
+                Text(data.title)
+                    .font(.title)
+                    .padding(LayoutConstants.TextOffset)
+                    .foregroundColor(.black)
+                
+                Spacer()
             }
+            .background(
+                RoundedRectangle(cornerRadius: LayoutConstants.BackgroundCornerRadius)
+                    .foregroundColor(.gray)
+                    .opacity(LayoutConstants.BackgroundOpacity)
+            )
         }
     }
 }
