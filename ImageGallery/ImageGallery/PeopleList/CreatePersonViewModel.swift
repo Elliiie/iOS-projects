@@ -39,7 +39,9 @@ class CreatePersonViewModel: ObservableObject {
     
     @Published var enableButton: Bool = false
     
-    private let mode: CreatePersonView.Mode
+    @Published var buttonTitle: String = ""
+            
+    let mode: CreatePersonView.Mode
     private let completion: (Person) -> Void
     
     init(mode: CreatePersonView.Mode, completion: @escaping (Person) -> Void) {
@@ -48,7 +50,13 @@ class CreatePersonViewModel: ObservableObject {
     }
     
     func onAppear() {
-        guard case .edit(let person) = mode else { return }
+        guard case .edit(let person) = mode else {
+            buttonTitle = "Add"
+            return
+        }
+        
+        buttonTitle = "Edit"
+        
         name = person.name
         number = person.number
         imageData = person.imageData

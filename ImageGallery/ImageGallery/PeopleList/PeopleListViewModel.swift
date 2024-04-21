@@ -24,11 +24,18 @@ class PeopleListViewModel: ObservableObject {
         fetchData()
     }
     
-    @MainActor
     func addPerson(_ person: Person) {
         people.append(person)
+        people.sort { $0.name < $1.name }
         
         modelContext.insert(person)
+    }
+    
+    func updatePerson(new: Person) {
+        selectedPerson?.name = new.name
+        selectedPerson?.number = new.number
+        selectedPerson?.imageData = new.imageData
+        selectedPerson?.birthdate = new.birthdate
     }
     
     func deletePerson(_ person: Person) {

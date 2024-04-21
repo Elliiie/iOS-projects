@@ -16,13 +16,13 @@ struct CreatePersonView: View {
     }
     
     @StateObject var viewModel: CreatePersonViewModel
-        
+    
     var body: some View {
         VStack {
             HStack {
                 Spacer()
                 
-                Button("Add") {
+                Button(viewModel.buttonTitle) {
                     viewModel.complete()
                 }
                 .disabled(!viewModel.enableButton)

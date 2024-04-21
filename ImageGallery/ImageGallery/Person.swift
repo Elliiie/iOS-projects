@@ -11,11 +11,11 @@ import SwiftData
 @Model
 final class Person {
     
-    @Attribute(.unique) private(set) var name: String
-    private(set) var number: String
-    private(set) var imageData: Data
-    private(set) var birthdate: Date
-    private(set) var creationDate: Date
+    @Attribute(.unique) var name: String
+    var number: String
+    var imageData: Data
+    var birthdate: Date
+    var creationDate: Date
     
     init(name: String, number: String, imageData: Data, birthdate: Date, creationDate: Date) {
         self.name = name

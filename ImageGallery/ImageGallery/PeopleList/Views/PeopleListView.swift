@@ -64,7 +64,8 @@ struct PeopleListView: View {
             .popover(isPresented: $showEditPerson, content: {
                 if let selectedPerson = viewModel.selectedPerson {
                     CreatePersonView(viewModel: .init(mode: .edit(selectedPerson), completion: { person in
-                        
+                        viewModel.updatePerson(new: person)
+                        showEditPerson = false
                     }))
                 }
             })
