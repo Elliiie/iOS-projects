@@ -2,41 +2,65 @@
 //  PersonInfoView.swift
 //  ImageGallery
 //
-//  Created by Elena Georgieva on 14.04.24.
+//  Created by Elena Georgieva on 21.04.24.
 //
 
 import SwiftUI
+
+struct KeyValueView: View {
+    
+    let key: String
+    let value: String
+    
+    var body: some View {
+        HStack {
+            Text(key)
+                .bold()
+            
+            Text(value)
+        }
+    }
+}
 
 struct PersonInfoView: View {
     
     let person: Person
     
     var body: some View {
-        HStack {
+        VStack {
             Image(uiImage: UIImage(data: person.imageData) ?? UIImage())
                 .resizable()
-                .frame(width: 100, height: 100)
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 200, height: 200)
                 .clipShape(.circle)
                 .shadow(radius: 6)
             
+            Spacer()
+                .frame(height: 32)
+            
             VStack(alignment: .leading) {
-                HStack {
-                    Text("Name: ")
-                        .bold()
-                    
-                    Text(person.name)
-                }
+                KeyValueView(key: "Name: ", value: person.name)
                 
-                HStack {
-                    Text("Number: ")
-                        .bold()
-                    
-                    Text(person.number)
-                }
+                Divider()
+                
+                KeyValueView(key: "Number: ", value: person.number)
+                
+                Divider()
+                                
+                KeyValueView(key: "Birthdate: ", value: person.birthdate.formatted())
+                
+                Divider()
+                
+                KeyValueView(key: "Added on:", value: person.creationDate.formatted())
+                
             }
             .padding()
-            
-            Spacer()
+            .background(content: {
+                Color.clear
+                    .clipShape(RoundedRectangle(cornerRadius: 14))
+                    .shadow(radius: 5)
+            })
         }
+        .padding()
     }
 }

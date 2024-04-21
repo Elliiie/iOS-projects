@@ -10,6 +10,11 @@ import PhotosUI
 
 struct CreatePersonView: View {
     
+    enum Mode {
+        case create
+        case edit(Person)
+    }
+    
     @StateObject var viewModel: CreatePersonViewModel
         
     var body: some View {
@@ -51,20 +56,29 @@ struct CreatePersonView: View {
                 Divider()
                 
                 TextField("Number", text: $viewModel.number)
+                    .keyboardType(.decimalPad)
                     .frame(height: 40)
+                
+                Divider()
+                
+                DatePicker("Birthdate", selection: $viewModel.birthdate, in: ...Date(), displayedComponents: .date)
+                    .foregroundColor(.gray)
             }
             .padding()
             
             Spacer()
         }
-            .onChange(of: viewModel.pickerItem) {
-                viewModel.observeSelectedImage()
-            }
+        .onAppear {
+            viewModel.onAppear()
+        }
+        .onChange(of: viewModel.pickerItem) {
+            viewModel.observeSelectedImage()
+        }
     }
 }
 
 #Preview {
-    CreatePersonView(viewModel: .init(completion: { _ in
+    CreatePersonView(viewModel: .init(mode: .create, completion: { _ in
         
     }))
 }

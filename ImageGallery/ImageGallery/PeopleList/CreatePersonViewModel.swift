@@ -29,14 +29,30 @@ class CreatePersonViewModel: ObservableObject {
         }
     }
     
+    @Published var birthdate: Date = Date() {
+        didSet {
+            handleInput()
+        }
+    }
+    
     @Published var pickerItem: PhotosPickerItem? = nil
     
     @Published var enableButton: Bool = false
     
+    private let mode: CreatePersonView.Mode
     private let completion: (Person) -> Void
     
-    init(completion: @escaping (Person) -> Void) {
+    init(mode: CreatePersonView.Mode, completion: @escaping (Person) -> Void) {
+        self.mode = mode
         self.completion = completion
+    }
+    
+    func onAppear() {
+        guard case .edit(let person) = mode else { return }
+        name = person.name
+        number = person.number
+        imageData = person.imageData
+        birthdate = person.birthdate
     }
     
     func observeSelectedImage() {
@@ -46,7 +62,7 @@ class CreatePersonViewModel: ObservableObject {
     }
     
     func complete() {
-        completion(Person(name: name, number: number, imageData: imageData!))
+        completion(Person(name: name, number: number, imageData: imageData!, birthdate: birthdate, creationDate: Date()))
     }
     
     private func handleInput() {

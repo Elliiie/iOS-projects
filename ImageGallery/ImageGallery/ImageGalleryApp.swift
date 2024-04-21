@@ -25,7 +25,7 @@ struct ImageGalleryApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PeopleListView()
+            PeopleListView(modelContext: sharedModelContainer.mainContext)
         }
         .modelContainer(sharedModelContainer)
     }
