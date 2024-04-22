@@ -38,25 +38,27 @@ class CreatePersonViewModel: ObservableObject {
     @Published var pickerItem: PhotosPickerItem? = nil
     
     @Published var enableButton: Bool = false
+                
+    @Published var pickerPresented: Bool = false
     
-    @Published var buttonTitle: String = ""
-            
-    let mode: CreatePersonView.Mode
+    @Published var birthdatePickerVisible: Bool = true
+    
+    @Published var canEditImage: Bool = false
+    
+    private let mode: CreatePersonView.Mode
     private let completion: (Person) -> Void
     
     init(mode: CreatePersonView.Mode, completion: @escaping (Person) -> Void) {
         self.mode = mode
         self.completion = completion
+        
+        guard case .edit = mode else { return }
+        birthdatePickerVisible = false
+        canEditImage = true
     }
     
     func onAppear() {
-        guard case .edit(let person) = mode else {
-            buttonTitle = "Add"
-            return
-        }
-        
-        buttonTitle = "Edit"
-        
+        guard case .edit(let person) = mode else { return }
         name = person.name
         number = person.number
         imageData = person.imageData
@@ -74,6 +76,12 @@ class CreatePersonViewModel: ObservableObject {
     }
     
     private func handleInput() {
-        enableButton = !name.isEmpty && !number.isEmpty && imageData != nil
+        switch mode {
+        case .create:
+            enableButton = !name.isEmpty && !number.isEmpty && imageData != nil
+        case .edit(let person):
+            enableButton = (!name.isEmpty && person.name != name) || (!number.isEmpty && person.number != number) || (imageData != nil && person.imageData != imageData)
+        }
+        
     }
 }

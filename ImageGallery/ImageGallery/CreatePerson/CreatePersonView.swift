@@ -22,7 +22,7 @@ struct CreatePersonView: View {
             HStack {
                 Spacer()
                 
-                Button(viewModel.buttonTitle) {
+                Button("Done") {
                     viewModel.complete()
                 }
                 .disabled(!viewModel.enableButton)
@@ -35,8 +35,9 @@ struct CreatePersonView: View {
                     
                 } else  {
                     PhotosPicker(selection: $viewModel.pickerItem, matching: .images) {
-                        Text("Load image")
-                            .padding()
+                        Image(systemName: "camera")
+                            .resizable()
+                            .frame(width: 35, height: 30)
                     }
                 }
             }
@@ -45,6 +46,13 @@ struct CreatePersonView: View {
                 .clipShape(.circle)
                 .shadow(radius: 6)
                 .padding()
+            
+            if viewModel.canEditImage {
+                Button("Edit image") {
+                    viewModel.pickerPresented.toggle()
+                }
+                .photosPicker(isPresented: $viewModel.pickerPresented, selection: $viewModel.pickerItem, matching: .images)
+            }
             
             Spacer()
                 .frame(height: 50)
@@ -61,8 +69,12 @@ struct CreatePersonView: View {
                 
                 Divider()
                 
-                DatePicker("Birthdate", selection: $viewModel.birthdate, in: ...Date(), displayedComponents: .date)
-                    .foregroundColor(.gray)
+                if viewModel.birthdatePickerVisible {
+                    DatePicker("Birthdate", selection: $viewModel.birthdate, in: ...Date(), displayedComponents: .date)
+                        .foregroundColor(.color(with: "BDBDBD"))
+                    
+                    Divider()
+                }
             }
             .padding()
             
