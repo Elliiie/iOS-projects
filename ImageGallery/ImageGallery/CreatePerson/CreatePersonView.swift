@@ -10,6 +10,15 @@ import PhotosUI
 
 struct CreatePersonView: View {
     
+    enum Layout {
+        static let PhotosPickerImageWidth: CGFloat = 35
+        static let PhotosPickerImageHeight: CGFloat = 30
+        static let ImageSize: CGFloat = 100
+        static let ShadowRadius: CGFloat = 6
+        static let ImageTextSpace: CGFloat = 50
+        static let TextFieldHeight: CGFloat = 40
+    }
+    
     enum Mode {
         case create
         case edit(Person)
@@ -37,14 +46,14 @@ struct CreatePersonView: View {
                     PhotosPicker(selection: $viewModel.pickerItem, matching: .images) {
                         Image(systemName: "camera")
                             .resizable()
-                            .frame(width: 35, height: 30)
+                            .frame(width: Layout.PhotosPickerImageWidth, height: Layout.PhotosPickerImageHeight)
                     }
                 }
             }
-                .frame(width: 100, height: 100)
+                .frame(width: Layout.ImageSize, height: Layout.ImageSize)
                 .background(.white)
                 .clipShape(.circle)
-                .shadow(radius: 6)
+                .shadow(radius: Layout.ShadowRadius)
                 .padding()
             
             if viewModel.canEditImage {
@@ -55,17 +64,17 @@ struct CreatePersonView: View {
             }
             
             Spacer()
-                .frame(height: 50)
+                .frame(height: Layout.ImageTextSpace)
             
             VStack {
                 TextField("Name", text: $viewModel.name)
-                    .frame(height: 40)
+                    .frame(height: Layout.TextFieldHeight)
 
                 Divider()
                 
                 TextField("Number", text: $viewModel.number)
                     .keyboardType(.decimalPad)
-                    .frame(height: 40)
+                    .frame(height: Layout.TextFieldHeight)
                 
                 Divider()
                 

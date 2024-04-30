@@ -11,6 +11,12 @@ import SwiftData
 
 struct PeopleListView: View {
     
+    enum Layout {
+        static let ImageWidth: CGFloat = 100
+        static let ImageHeight: CGFloat = 80
+        static let ImageTextSpace: CGFloat = 32
+    }
+    
     @StateObject var viewModel: PeopleListViewModel
         
     init(modelContext: ModelContext) {
@@ -27,10 +33,10 @@ struct PeopleListView: View {
                     VStack {
                         Image(systemName: "photo.on.rectangle")
                             .resizable()
-                            .frame(width: 100, height: 80)
+                            .frame(width: Layout.ImageWidth, height: Layout.ImageHeight)
                         
                         Spacer()
-                            .frame(height: 32)
+                            .frame(height: Layout.ImageTextSpace)
                         
                         Text("Empty :(")
                             .font(.headline)

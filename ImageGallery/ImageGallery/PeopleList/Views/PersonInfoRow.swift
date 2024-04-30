@@ -9,6 +9,11 @@ import SwiftUI
 
 struct PersonInfoRow: View {
     
+    enum Layout {
+        static let ImageSize: CGFloat = 100
+        static let ShadowRadius: CGFloat = 6
+    }
+    
     let person: Person
     
     var body: some View {
@@ -16,9 +21,9 @@ struct PersonInfoRow: View {
             Image(uiImage: UIImage(data: person.imageData) ?? UIImage())
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 100, height: 100)
+                .frame(width: Layout.ImageSize, height: Layout.ImageSize)
                 .clipShape(.circle)
-                .shadow(radius: 6)
+                .shadow(radius: Layout.ShadowRadius)
             
             VStack(alignment: .leading) {
                 KeyValueView(key: "Name: ", value: person.name)

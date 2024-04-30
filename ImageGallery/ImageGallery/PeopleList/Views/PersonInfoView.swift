@@ -24,6 +24,13 @@ struct KeyValueView: View {
 
 struct PersonInfoView: View {
     
+    enum Layout {
+        static let ImageSize: CGFloat = 200
+        static let ShadowRadius: CGFloat = 6
+        static let ImageTextSpace: CGFloat = 32
+        static let CornerRadius: CGFloat = 14
+    }
+    
     let person: Person
     let onAppearHandler: () -> Void
     
@@ -32,12 +39,12 @@ struct PersonInfoView: View {
             Image(uiImage: UIImage(data: person.imageData) ?? UIImage())
                 .resizable()
                 .aspectRatio(contentMode: .fill)
-                .frame(width: 200, height: 200)
+                .frame(width: Layout.ImageSize, height: Layout.ImageSize)
                 .clipShape(.circle)
-                .shadow(radius: 6)
+                .shadow(radius: Layout.ShadowRadius)
             
             Spacer()
-                .frame(height: 32)
+                .frame(height: Layout.ImageTextSpace)
             
             VStack(alignment: .leading) {
                 KeyValueView(key: "Name: ", value: person.name)
@@ -48,7 +55,7 @@ struct PersonInfoView: View {
                 
                 Divider()
                                 
-                KeyValueView(key: "Birthdate: ", value: person.birthdate.formatted())
+                KeyValueView(key: "Birthdate: ", value: person.birthdate.formatted(date: .abbreviated, time: .omitted))
                 
                 Divider()
                 
@@ -62,8 +69,8 @@ struct PersonInfoView: View {
             .padding()
             .background(content: {
                 Color.clear
-                    .clipShape(RoundedRectangle(cornerRadius: 14))
-                    .shadow(radius: 5)
+                    .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius))
+                    .shadow(radius: Layout.ShadowRadius)
             })
         }
         .padding()
