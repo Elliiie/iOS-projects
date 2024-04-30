@@ -23,26 +23,43 @@ struct PeopleListView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                List(viewModel.people) { person in
-                    NavigationLink {
-                        PersonInfoView(person: person)
-                    } label: {
-                        PersonInfoRow(person: person)
-                            .swipeActions(edge: .trailing) {
-                                Button(role: .destructive) {
-                                    viewModel.deletePerson(person)
-                                } label: {
-                                    Label("Delete", systemImage: "trash")
-                                }
+                if viewModel.people.isEmpty {
+                    VStack {
+                        Image(systemName: "photo.on.rectangle")
+                            .resizable()
+                            .frame(width: 100, height: 80)
+                        
+                        Spacer()
+                            .frame(height: 32)
+                        
+                        Text("Empty :(")
+                            .font(.headline)
+                    }
+                    .foregroundColor(.accentColor)
+                } else {
+                    List(viewModel.people) { person in
+                        NavigationLink {
+                            PersonInfoView(person: person) {
+                                viewModel.personClicked(person)
                             }
-                            .swipeActions(edge: .leading) {
-                                Button {
-                                    viewModel.selectedPerson = person
-                                    showEditPerson.toggle()
-                                } label: {
-                                    Label("Edit", systemImage: "pencil.circle")
+                        } label: {
+                            PersonInfoRow(person: person)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        viewModel.deletePerson(person)
+                                    } label: {
+                                        Label("Delete", systemImage: "trash")
+                                    }
                                 }
-                            }
+                                .swipeActions(edge: .leading) {
+                                    Button {
+                                        viewModel.selectedPerson = person
+                                        showEditPerson.toggle()
+                                    } label: {
+                                        Label("Edit", systemImage: "pencil.circle")
+                                    }
+                                }
+                        }
                     }
                 }
             }

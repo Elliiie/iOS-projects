@@ -39,7 +39,12 @@ class PeopleListViewModel: ObservableObject {
     }
     
     func deletePerson(_ person: Person) {
+        people.removeAll { $0 == person }
         modelContext.delete(person)
+    }
+    
+    func personClicked(_ person: Person) {
+        person.clickedCount += 1
     }
     
     private func fetchData() {

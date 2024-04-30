@@ -72,15 +72,15 @@ class CreatePersonViewModel: ObservableObject {
     }
     
     func complete() {
-        completion(Person(name: name, number: number, imageData: imageData!, birthdate: birthdate, creationDate: Date()))
+        completion(Person(name: name, number: number, imageData: imageData!, birthdate: birthdate, creationDate: Date(), clickedCount: 0))
     }
     
     private func handleInput() {
         switch mode {
         case .create:
-            enableButton = !name.isEmpty && !number.isEmpty && imageData != nil
+            enableButton = (!name.isEmpty && imageData != nil) || !number.isEmpty
         case .edit(let person):
-            enableButton = (!name.isEmpty && person.name != name) || (!number.isEmpty && person.number != number) || (imageData != nil && person.imageData != imageData)
+            enableButton = (!name.isEmpty && person.name != name) || (person.number != number) || (imageData != nil && person.imageData != imageData)
         }
         
     }

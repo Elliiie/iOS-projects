@@ -25,6 +25,7 @@ struct KeyValueView: View {
 struct PersonInfoView: View {
     
     let person: Person
+    let onAppearHandler: () -> Void
     
     var body: some View {
         VStack {
@@ -53,6 +54,10 @@ struct PersonInfoView: View {
                 
                 KeyValueView(key: "Added on:", value: person.creationDate.formatted())
                 
+                Divider()
+                
+                KeyValueView(key: "Clicked: ", value: "\(person.clickedCount) times")
+                
             }
             .padding()
             .background(content: {
@@ -62,5 +67,8 @@ struct PersonInfoView: View {
             })
         }
         .padding()
+        .onAppear {
+            onAppearHandler()
+        }
     }
 }
