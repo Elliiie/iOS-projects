@@ -12,7 +12,7 @@ import SwiftData
 struct CarsLibApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            Car.self,
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +25,7 @@ struct CarsLibApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CarBrandsListView(modelContext: sharedModelContainer.mainContext)
         }
         .modelContainer(sharedModelContainer)
     }
