@@ -28,7 +28,9 @@ struct CarBrandsListView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(viewModel.carsData) { car in
                         NavigationLink {
-                            
+                            CarInfoView(car: car) {
+                                viewModel.carClicked(car)
+                            }
                         } label: {
                             VStack {
                                 Image(uiImage: UIImage(data: car.brandImage) ?? UIImage())

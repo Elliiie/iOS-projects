@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2461E12BF63E2200459455 /* CarInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C2461E02BF63E2200459455 /* CarInfoView.swift */; };
 		2C310F362BEA200500FD6729 /* CarsLibApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C310F352BEA200500FD6729 /* CarsLibApp.swift */; };
 		2C310F3C2BEA200700FD6729 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C310F3B2BEA200700FD6729 /* Assets.xcassets */; };
 		2C310F3F2BEA200700FD6729 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C310F3E2BEA200700FD6729 /* Preview Assets.xcassets */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C2461E02BF63E2200459455 /* CarInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoView.swift; sourceTree = "<group>"; };
 		2C310F322BEA200500FD6729 /* CarsLib.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CarsLib.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C310F352BEA200500FD6729 /* CarsLibApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarsLibApp.swift; sourceTree = "<group>"; };
 		2C310F3B2BEA200700FD6729 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				2C310F3D2BEA200700FD6729 /* Preview Content */,
 				2C310F452BEA20BC00FD6729 /* Car.swift */,
 				2C310F4C2BEA66BF00FD6729 /* CarBrands.swift */,
+				2C2461E02BF63E2200459455 /* CarInfoView.swift */,
 			);
 			path = CarsLib;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CA7DEB52BED11C500E49419 /* CreateCarViewModel.swift in Sources */,
+				2C2461E12BF63E2200459455 /* CarInfoView.swift in Sources */,
 				2C310F482BEA219D00FD6729 /* CarBrandsListViewModel.swift in Sources */,
 				2C310F4F2BEA69B800FD6729 /* CreateCarView.swift in Sources */,
 				2C310F462BEA20BC00FD6729 /* Car.swift in Sources */,
