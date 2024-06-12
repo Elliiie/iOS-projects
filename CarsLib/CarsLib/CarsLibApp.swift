@@ -25,7 +25,7 @@ struct CarsLibApp: App {
 
     var body: some Scene {
         WindowGroup {
-            CarBrandsListView(modelContext: sharedModelContainer.mainContext)
+            BrandsListView(modelContext: sharedModelContainer.mainContext)
         }
         .modelContainer(sharedModelContainer)
     }

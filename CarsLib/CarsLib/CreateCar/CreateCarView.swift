@@ -29,25 +29,9 @@ struct CreateCarView: View {
                 .padding()
             }
             
-            PhotosPicker(selection: $viewModel.pickerItem, matching: .images) {
-                if let imageData = viewModel.imageData, let image = UIImage(data: imageData) {
-                    Image(uiImage: image)
-                        .resizable()
-                        .foregroundColor(.primary)
-                        .aspectRatio(1.15, contentMode: .fit)
-
-                } else {
-                    Text("Import brand image")
-                        .underline()
-                }
-            }
-            
-            Spacer()
-                .frame(height: 50)
-            
             HStack {
                 Picker("", selection: $viewModel.selectedCardBrand) {
-                    ForEach(CarHelper.shared.brands, id: \.self) { brand in
+                    ForEach(CarBrand.AllNames, id: \.self) { brand in
                         Text(brand)
                     }
                 }
@@ -63,9 +47,6 @@ struct CreateCarView: View {
             Spacer()
         }
         .padding()
-        .onChange(of: viewModel.pickerItem) {
-            viewModel.observeSelectedImage()
-        }
         .onAppear {
             viewModel.onAppear()
         }

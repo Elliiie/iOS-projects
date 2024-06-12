@@ -6,75 +6,44 @@
 //
 
 import Foundation
+import SwiftUI
 
-struct CarHelper {
+enum CarBrand: String {
+    case audi = "Audi"
+    case bmw = "BMW"
+    case dodge = "Dodge"
+    case ferrari = "Ferrari"
+    case ford = "Ford"
+    case honda = "Honda"
+    case lexus = "Lexus"
+    case mazda = "Mazda"
+    case mercedes = "Mercedes"
+    case nissan = "Nissan"
+    case porsche = "Porsche"
+    case toyota = "Toyota"
     
-    static let shared = CarHelper()
+    var image: Image {
+        return switch self {
+        case .audi: Image(.audi)
+        case .bmw: Image(.bmw)
+        case .dodge: Image(.dodge)
+        case .ferrari: Image(.ferrari)
+        case .ford: Image(.ford)
+        case .honda: Image(.honda)
+        case .lexus: Image(.lexus)
+        case .mazda: Image(.mazda)
+        case .mercedes: Image(.mercedes)
+        case .nissan: Image(.nissan)
+        case .porsche: Image(.porsche)
+        case .toyota: Image(.toyota)
+        }
+    }
     
-    let brands = [
-        "Acura",
-        "Alfa Romeo",
-        "Aston Martin",
-        "Audi",
-        "Bentley",
-        "BMW",
-        "Bugatti",
-        "Cadillac",
-        "Chevrolet",
-        "Citroën",
-        "Corvette",
-        "Cupra",
-        "Dacia",
-        "Daihatsu",
-        "Dodge",
-        "DS Automobiles",
-        "Ferrari",
-        "Fiat",
-        "Ford",
-        "Genesis",
-        "GMC",
-        "Honda",
-        "Hyundai",
-        "Infiniti",
-        "Isuzu",
-        "Jaguar",
-        "Jeep",
-        "Kia",
-        "Koenigsegg",
-        "Lada",
-        "Lamborghini",
-        "Lancia",
-        "Land Rover",
-        "Lexus",
-        "Lincoln",
-        "Lotus",
-        "Maserati",
-        "Mazda",
-        "McLaren",
-        "Mercedes-Benz",
-        "Mini",
-        "Mitsubishi",
-        "Nissan",
-        "Opel",
-        "Pagani",
-        "Peugeot",
-        "Polestar",
-        "Porsche",
-        "Ram",
-        "Renault",
-        "Rolls-Royce",
-        "Saab",
-        "SEAT",
-        "Škoda",
-        "Smart",
-        "SsangYong",
-        "Subaru",
-        "Suzuki",
-        "Tesla",
-        "Toyota",
-        "Volkswagen",
-        "Volvo"
-    ]
+    static var All: [CarBrand] {
+        return [.audi, .bmw, .dodge, .ferrari, .ford, .honda, .lexus, .mazda, .mercedes, .nissan, .porsche, .toyota]
+    }
     
-    private init() {}
+    static var AllNames: [String] {
+        return All.map { $0.rawValue }
+    }
 }

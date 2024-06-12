@@ -11,7 +11,7 @@ import PhotosUI
 
 class CreateCarViewModel: ObservableObject {
     
-    @Published var selectedCardBrand: String = CarHelper.shared.brands[0] 
+    @Published var selectedCardBrand: String = CarBrand.AllNames[0] 
     
     @Published var model: String = "" {
         didSet {
@@ -28,13 +28,6 @@ class CreateCarViewModel: ObservableObject {
             handleInput()
         }
     }
-    @Published var imageData: Data? = nil {
-        didSet {
-            handleInput()
-        }
-    }
-    
-    @Published var pickerItem: PhotosPickerItem? = nil
 
     @Published var enableButton: Bool = false
     
@@ -53,21 +46,15 @@ class CreateCarViewModel: ObservableObject {
         model = car.model
         productionDate = car.productionYear
         power = String(car.power)
-        imageData = car.brandImage
 
-    }
-    func observeSelectedImage() {
-        Task { @MainActor in
-            imageData = try? await pickerItem?.loadTransferable(type: Data.self)
-        }
     }
     
     func complete() {
-        guard let power = Int(power), let imageData else { return }
-        completion(Car(model: model, brand: selectedCardBrand, productionYear: productionDate, power: power, clickedCount: 0, brandImage: imageData))
+        guard let power = Int(power) else { return }
+        completion(Car(model: model, brand: selectedCardBrand, productionYear: productionDate, power: power, clickedCount: 0))
     }
     
     private func handleInput() {
-        enableButton = !model.isEmpty && !power.isEmpty && imageData != nil
+        enableButton = !model.isEmpty && !power.isEmpty
     }
 }

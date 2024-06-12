@@ -15,14 +15,18 @@ class Car {
     var productionYear: Date
     var power: Int
     var clickedCount: Int
-    var brandImage: Data
     
-    init(model: String, brand: String, productionYear: Date, power: Int, clickedCount: Int, brandImage: Data) {
+    init(model: String, brand: String, productionYear: Date, power: Int, clickedCount: Int) {
         self.model = model
         self.brand = brand
         self.productionYear = productionYear
         self.power = power
         self.clickedCount = clickedCount
-        self.brandImage = brandImage
+    }
+}
+
+extension Date {
+    var year: Int {
+        return Calendar(identifier: .iso8601).component(.year, from: self)
     }
 }
