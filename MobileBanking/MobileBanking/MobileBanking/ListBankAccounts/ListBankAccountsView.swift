@@ -11,13 +11,13 @@ import SwiftData
 struct ListBankAccountsView: View {
     
     @State var viewModel: ListBankAccountsViewModel = .init()
-    
+        
     var body: some View {
         NavigationStack {
             VStack {
                 if viewModel.bankAccounts.isEmpty {
                     Text("You don't have any bank accounts :c")
-                        .font(.system(size: 20))
+                        .font(.system(size: Layout.TitleFontSize))
                         
                 } else {
                     List(viewModel.bankAccounts) { account in
@@ -50,7 +50,7 @@ struct ListBankAccountsView: View {
                         .background(Color.accentColor)
                         .cornerRadiusAndShadow()
                 }
-                    .padding(.top, 32)
+                .padding(.top, Layout.BigOffset)
             }
             .popover(isPresented: $viewModel.createBankAccountPresented, content: {
                 CreateBankAccountView(completion: viewModel.createBankAccount(_:))

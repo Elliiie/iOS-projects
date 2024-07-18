@@ -53,7 +53,7 @@ let IBANLength = 22
     
     private func validateInput() -> Bool {
         let nameEmpty = name.trimmed.isEmpty
-        let nameContainsSpecialChars = name.trimmed.containsSpecialCharacters
+        let nameContainsSpecialChars = name.containsSpecialCharacters
         
         let isValidName = !nameEmpty && !nameContainsSpecialChars
         
@@ -68,15 +68,5 @@ let IBANLength = 22
         let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         
         return String((0..<IBANLength).map{ _ in letters.randomElement()! })
-    }
-}
-
-extension String {
-    var trimmed: String {
-        return self.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
-    var containsSpecialCharacters: Bool {
-        return self.range(of: ".*[^A-Za-z0-9].*", options: .regularExpression) != nil
     }
 }

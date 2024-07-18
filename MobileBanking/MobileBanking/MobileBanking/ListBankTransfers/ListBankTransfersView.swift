@@ -19,7 +19,7 @@ struct ListBankTransfersView: View {
     var body: some View {
         VStack {
             Text("Transfers")
-                .font(.system(size: 20))
+                .font(.system(size: Layout.TitleFontSize))
                 .padding()
             
             VStack {

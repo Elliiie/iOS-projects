@@ -18,7 +18,7 @@ struct CreateTransferView: View {
     var body: some View {
         VStack {
             Text("Create transfer")
-                .font(.system(size: 20))
+                .font(.system(size: Layout.TitleFontSize))
                 .padding()
             
             VStack {
@@ -26,7 +26,7 @@ struct CreateTransferView: View {
                 
                 HStack {
                     Text(viewModel.accountCurrency)
-                        .padding(.trailing, 8)
+                        .padding(.trailing, Layout.SmallOffset)
                     
                     TextFieldView(placeholder: "Amount", isEnabled: true, keyboardType: .decimalPad, text: $viewModel.amount, error: .constant(nil))
                 }
@@ -47,7 +47,7 @@ struct CreateTransferView: View {
                     .cornerRadiusAndShadow()
             }
                 .disabled(!viewModel.buttonEnabled)
-                .padding(.top, 32)
+                .padding(.top, Layout.BigOffset)
             
             Spacer()
         }
