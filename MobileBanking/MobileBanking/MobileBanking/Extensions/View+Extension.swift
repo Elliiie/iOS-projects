@@ -12,7 +12,7 @@ extension View {
     @ViewBuilder func cornerRadiusAndShadow() -> some View {
         self
             .background(Color.white)
-            .clipShape(RoundedRectangle(cornerRadius: 14))
-            .shadow(radius: 6)
+            .clipShape(RoundedRectangle(cornerRadius: Layout.CornerRadius))
+            .shadow(radius: Layout.ShadowRadius)
     }
 }

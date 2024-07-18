@@ -12,7 +12,7 @@ let Currencies: [String] = ["BGN", "GBP"]
 struct CreateBankAccountView: View {
         
     @State private var viewModel: CreateBankAccountViewModel
-        
+    
     init(completion: @escaping (BankAccount) -> Void) {
         self._viewModel = .init(wrappedValue: .init(completion: completion))
     }
@@ -20,7 +20,7 @@ struct CreateBankAccountView: View {
     var body: some View {
         VStack {
             Text("Create bank account")
-                .font(.system(size: 20))
+                .font(.system(size: Layout.TitleFontSize))
                 .padding()
             
             VStack {
@@ -31,7 +31,7 @@ struct CreateBankAccountView: View {
                 HStack {
                     Text("Currency")
                         .foregroundStyle(Color.gray)
-                        .font(.system(size: 14))
+                        .font(.system(size: Layout.TextFontSize))
                     
                     Picker("", selection: $viewModel.currency) {
                         ForEach(Currencies, id: \.self) { currency in
@@ -54,7 +54,7 @@ struct CreateBankAccountView: View {
                     .cornerRadiusAndShadow()
             }
                 .disabled(viewModel.buttonDisabled)
-                .padding(.top, 32)
+                .padding(.top, Layout.BigOffset)
             
             Spacer()
         }

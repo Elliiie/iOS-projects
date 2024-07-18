@@ -14,6 +14,8 @@
 		2C239CCC2C49490C000A0E7C /* ListBankTransfersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C239CCB2C49490C000A0E7C /* ListBankTransfersViewModel.swift */; };
 		2C239CCE2C494930000A0E7C /* BankTransferView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C239CCD2C494930000A0E7C /* BankTransferView.swift */; };
 		2C239CD02C495A85000A0E7C /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C239CCF2C495A85000A0E7C /* DatabaseManager.swift */; };
+		2CAE56062C498F470025BC38 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE56052C498F470025BC38 /* String+Extension.swift */; };
+		2CAE56082C49910E0025BC38 /* Layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAE56072C49910E0025BC38 /* Layout.swift */; };
 		2CDB1A2F2C47A832001DD8CD /* ListBanlAccountsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDB1A2E2C47A832001DD8CD /* ListBanlAccountsViewModel.swift */; };
 		2CDB1A322C47ECD9001DD8CD /* BankAccountDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDB1A312C47ECD9001DD8CD /* BankAccountDetailsView.swift */; };
 		2CF8E8502C46951A006E387D /* MobileBankingApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF8E84F2C46951A006E387D /* MobileBankingApp.swift */; };
@@ -36,6 +38,8 @@
 		2C239CCB2C49490C000A0E7C /* ListBankTransfersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBankTransfersViewModel.swift; sourceTree = "<group>"; };
 		2C239CCD2C494930000A0E7C /* BankTransferView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankTransferView.swift; sourceTree = "<group>"; };
 		2C239CCF2C495A85000A0E7C /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		2CAE56052C498F470025BC38 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		2CAE56072C49910E0025BC38 /* Layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Layout.swift; sourceTree = "<group>"; };
 		2CDB1A2E2C47A832001DD8CD /* ListBanlAccountsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListBanlAccountsViewModel.swift; sourceTree = "<group>"; };
 		2CDB1A312C47ECD9001DD8CD /* BankAccountDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankAccountDetailsView.swift; sourceTree = "<group>"; };
 		2CF8E84C2C46951A006E387D /* MobileBanking.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileBanking.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -78,6 +82,15 @@
 				2C239CC72C4945CD000A0E7C /* CreateTransferViewModel.swift */,
 			);
 			path = CreateTransfer;
+			sourceTree = "<group>";
+		};
+		2CAE56042C498F340025BC38 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				2CF8E86B2C46AE9A006E387D /* View+Extension.swift */,
+				2CAE56052C498F470025BC38 /* String+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		2CDB1A2D2C47A817001DD8CD /* ListBankAccounts */ = {
@@ -124,6 +137,7 @@
 				2CDB1A2D2C47A817001DD8CD /* ListBankAccounts */,
 				2CF8E86A2C46A531006E387D /* Views */,
 				2CF8E8602C46967D006E387D /* Models */,
+				2CAE56042C498F340025BC38 /* Extensions */,
 				2CF8E84F2C46951A006E387D /* MobileBankingApp.swift */,
 				2C239CCF2C495A85000A0E7C /* DatabaseManager.swift */,
 				2CF8E8552C46951C006E387D /* Assets.xcassets */,
@@ -153,8 +167,8 @@
 			isa = PBXGroup;
 			children = (
 				2CF8E8682C46A52D006E387D /* TextFieldView.swift */,
-				2CF8E86B2C46AE9A006E387D /* View+Extension.swift */,
 				2C239CCD2C494930000A0E7C /* BankTransferView.swift */,
+				2CAE56072C49910E0025BC38 /* Layout.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -248,8 +262,10 @@
 				2CF8E86E2C46B179006E387D /* ListBankAccountsView.swift in Sources */,
 				2CF8E86C2C46AE9A006E387D /* View+Extension.swift in Sources */,
 				2C239CC42C492085000A0E7C /* CreateTransferView.swift in Sources */,
+				2CAE56062C498F470025BC38 /* String+Extension.swift in Sources */,
 				2CF8E8672C469C90006E387D /* CreateBankAccountView.swift in Sources */,
 				2C239CCC2C49490C000A0E7C /* ListBankTransfersViewModel.swift in Sources */,
+				2CAE56082C49910E0025BC38 /* Layout.swift in Sources */,
 				2CF8E8622C469692006E387D /* BankAccount.swift in Sources */,
 				2C239CCA2C494608000A0E7C /* BankAccountDetailsViewModel.swift in Sources */,
 				2C239CCE2C494930000A0E7C /* BankTransferView.swift in Sources */,

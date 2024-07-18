@@ -15,13 +15,13 @@ import SwiftData
         case frozen
     }
     
-    @Attribute(.unique) var id: String
-    @Attribute(.unique) var name: String
-    @Attribute(.unique) var iban: String
-    var currency: String
+    @Attribute(.unique) let id: String
+    @Attribute(.unique) let name: String
+    @Attribute(.unique) let iban: String
+    let currency: String
     var status: String
     var availableAmount: Double
-    var createdOn: Date
+    let createdOn: Date
     var modifiedOn: Date
     
     var isFrozen: Bool {

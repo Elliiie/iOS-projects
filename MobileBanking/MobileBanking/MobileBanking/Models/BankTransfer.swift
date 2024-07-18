@@ -22,7 +22,7 @@ import SwiftData
     let amount: Double
     let message: String
     let createdOn: Date
-    let modifiedOn: Date
+    var modifiedOn: Date
     
     init(id: String, accountId: String, beneficiaryAccountId: String, type: TransferType, amount: Double, message: String, createdOn: Date, modifiedOn: Date) {
         self.id = id

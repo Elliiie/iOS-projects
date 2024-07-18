@@ -9,8 +9,6 @@ import SwiftUI
 
 struct TextFieldView: View {
     
-    private let TextFieldHeight: CGFloat = 60
-    
     let placeholder: String
     let isEnabled: Bool
     let keyboardType: UIKeyboardType
@@ -22,9 +20,9 @@ struct TextFieldView: View {
         VStack(alignment: .leading) {
             ZStack(alignment: .leading) {
                 Text(placeholder)
-                    .font(.system(size: 14))
+                    .font(.system(size: Layout.TextFontSize))
                     .foregroundStyle(error != nil ? Color.red : .gray)
-                    .offset(x: 0, y: text.isEmpty ? 0 : -(TextFieldHeight / 2))
+                    .offset(x: 0, y: text.isEmpty ? 0 : -(Layout.TextFieldHeight / 2))
            
                 TextField("", text: $text)
                     .keyboardType(keyboardType)
@@ -36,10 +34,10 @@ struct TextFieldView: View {
             
             if error != nil {
                 Text(error ?? "")
-                    .font(.system(size: 14))
+                    .font(.system(size: Layout.TextFontSize))
                     .foregroundStyle(Color.red)
             }
         }
-        .frame(height: error != nil ? TextFieldHeight + 16 : TextFieldHeight)
+        .frame(height: error != nil ? Layout.TextFieldHeight + 16 : Layout.TextFieldHeight)
     }
 }

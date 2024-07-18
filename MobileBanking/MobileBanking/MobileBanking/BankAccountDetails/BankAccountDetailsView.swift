@@ -19,10 +19,10 @@ struct BankAccountDetailsView: View {
     var body: some View {
         VStack {
             Text(viewModel.balance)
-                .font(.system(size: 36))
+                .font(.system(size: Layout.BalanceFontSize))
                 .foregroundStyle(viewModel.isAccountFrozen ? Color.gray : Color.accentColor)
             
-            HStack(spacing: 32) {
+            HStack(spacing: Layout.BigOffset) {
                 freezeUnfreezeButton
                 
                 Button(action: viewModel.didTapNewTransfer, label: {
@@ -32,12 +32,12 @@ struct BankAccountDetailsView: View {
                             .padding()
                             .background(Color.white)
                             .clipShape(Circle())
-                            .shadow(radius: 14)
-                            .frame(width: 50, height: 50)
+                            .shadow(radius: Layout.ShadowRadius)
+                            .frame(width: Layout.ImageSize, height: Layout.ImageSize)
                         
                         Text("New transfer")
                             .foregroundStyle(viewModel.isAccountFrozen ? Color.gray : Color.accentColor)
-                            .font(.system(size: 14))
+                            .font(.system(size: Layout.TextFontSize))
                     }
                 })
                 .disabled(viewModel.isAccountFrozen)
@@ -137,12 +137,12 @@ struct BankAccountDetailsView: View {
                     .padding()
                     .background(Color.white)
                     .clipShape(Circle())
-                    .shadow(radius: 14)
-                    .frame(width: 50, height: 50)
+                    .shadow(radius: Layout.ShadowRadius)
+                    .frame(width: Layout.ImageSize, height: Layout.ImageSize)
                 
                 Text(title)
                     .foregroundStyle(Color.accentColor)
-                    .font(.system(size: 14))
+                    .font(.system(size: Layout.TextFontSize))
             }
         })
         
@@ -156,7 +156,7 @@ struct BankAccountDetailsView: View {
             
             Spacer()
         }
-        .padding(8)
+        .padding(Layout.SmallOffset)
     }
     
     private func buildSection(title: String, content: @escaping () -> some View) -> some View {
