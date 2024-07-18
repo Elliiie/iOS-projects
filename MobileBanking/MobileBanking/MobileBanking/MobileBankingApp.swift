@@ -12,7 +12,8 @@ import SwiftData
 struct MobileBankingApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            Item.self,
+            BankAccount.self,
+            BankTransfer.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -25,7 +26,10 @@ struct MobileBankingApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ListBankAccountsView()
+                .onAppear {
+                    DatabaseManager.setup(modelContext: sharedModelContainer.mainContext)
+                }
         }
         .modelContainer(sharedModelContainer)
     }
