@@ -13,7 +13,7 @@ struct BankTransferView: View {
         let id: String
         let type: String
         let amount: String
-        let message: String
+        let subtitle: String
     }
     
     let viewData: Data
@@ -26,10 +26,9 @@ struct BankTransferView: View {
                 VStack(alignment: .leading) {
                     Text("\(viewData.type) transfer")
                     
-                    if !viewData.message.isEmpty {
-                        Text(viewData.message)
-                            .foregroundStyle(Color.gray)
-                    }
+                    Text(viewData.subtitle)
+                        .foregroundStyle(Color.gray)
+                    
                 }
                 
                 Spacer()

@@ -22,7 +22,7 @@ struct CreateTransferView: View {
                 .padding()
             
             VStack {
-                TextFieldView(placeholder: "IBAN", isEnabled: true, keyboardType: .default, text: $viewModel.iban, error: .constant(nil))
+                TextFieldView(placeholder: "IBAN", isEnabled: true, keyboardType: .default, text: $viewModel.iban, error: $viewModel.ibanError)
                 
                 HStack {
                     Text(viewModel.accountCurrency)

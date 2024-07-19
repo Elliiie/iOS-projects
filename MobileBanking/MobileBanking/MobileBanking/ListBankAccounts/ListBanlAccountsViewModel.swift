@@ -38,7 +38,7 @@ import SwiftData
         bankAccounts = DatabaseManager.shared.fetchBankAccounts()
         
         // For test purposes
-        guard !bankAccounts.isEmpty else { return }
-        bankAccounts[0].availableAmount = 100
+//        guard !bankAccounts.isEmpty else { return }
+//        bankAccounts[0].availableAmount = 100
     }
 }

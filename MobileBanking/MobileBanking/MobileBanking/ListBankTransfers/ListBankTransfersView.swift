@@ -22,16 +22,16 @@ struct ListBankTransfersView: View {
                 .font(.system(size: Layout.TitleFontSize))
                 .padding()
             
-            VStack {
+            ScrollView {
                 ForEach(viewModel.transfers, id: \.id) { transfer in
                     BankTransferView(viewData: transfer)
                 }
+                .cornerRadiusAndShadow()
+                .padding()
             }
-            .cornerRadiusAndShadow()
             
             Spacer()
         }
-        .padding()
         .onAppear {
             viewModel.onAppear()
         }

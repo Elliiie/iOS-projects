@@ -34,4 +34,8 @@ import SwiftData
         self.createdOn = createdOn
         self.modifiedOn = modifiedOn
     }
+    
+    func getTransferType(accountId: String) -> BankTransfer.TransferType {
+        return self.accountId == accountId ? BankTransfer.TransferType.credit : BankTransfer.TransferType.debit
+    }
 }

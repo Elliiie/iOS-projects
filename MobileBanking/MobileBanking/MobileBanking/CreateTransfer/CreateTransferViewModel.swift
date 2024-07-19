@@ -33,6 +33,8 @@ struct TransferData {
         }
     }
     
+    var ibanError: String?
+    
     var buttonEnabled: Bool = false
     
     let accountCurrency: String
@@ -52,6 +54,11 @@ struct TransferData {
     }
     
     private func validateInput() -> Bool {
-        return iban.count == IBANLength && Double(amount) != nil
+        let isValidIBAN = iban.trimmed.count == IBANLength
+        let isValidAmount = Double(amount) != nil
+        
+        ibanError = isValidIBAN ? nil : "Enter a valid IBAN"
+        
+        return isValidIBAN && isValidAmount
     }
 }
