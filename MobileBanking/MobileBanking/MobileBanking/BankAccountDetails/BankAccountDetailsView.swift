@@ -46,12 +46,12 @@ struct BankAccountDetailsView: View {
             ScrollView {
                 buildSection(title: "Bank account details") {
                     VStack {
-                        buildKeyValueView(key: "Name", value: viewModel.name)
+                        KeyValueView(key: "Name", value: viewModel.name)
                         
                         Divider()
                         
                         HStack {
-                            buildKeyValueView(key: "IBAN", value: viewModel.iban)
+                            KeyValueView(key: "IBAN", value: viewModel.iban)
                                 .contextMenu(ContextMenu(menuItems: {
                                     Text("Copy")
                                 }))
@@ -63,15 +63,15 @@ struct BankAccountDetailsView: View {
                         
                         Divider()
                         
-                        buildKeyValueView(key: "Currency", value: viewModel.currency)
+                        KeyValueView(key: "Currency", value: viewModel.currency)
                         
                         Divider()
                         
-                        buildKeyValueView(key: "Created on", value: viewModel.createdOn)
+                        KeyValueView(key: "Created on", value: viewModel.createdOn)
                         
                         Divider()
                         
-                        buildKeyValueView(key: "Modified on", value: viewModel.modifiedOn)
+                        KeyValueView(key: "Modified on", value: viewModel.modifiedOn)
                     }
                 }
                 
@@ -146,17 +146,6 @@ struct BankAccountDetailsView: View {
             }
         })
         
-    }
-    
-    private func buildKeyValueView(key: String, value: String) -> some View {
-        HStack {
-            Text(key + ":")
-            
-            Text(value)
-            
-            Spacer()
-        }
-        .padding(Layout.SmallOffset)
     }
     
     private func buildSection(title: String, content: @escaping () -> some View) -> some View {

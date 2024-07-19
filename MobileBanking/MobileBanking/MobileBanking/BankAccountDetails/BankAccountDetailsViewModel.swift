@@ -64,7 +64,10 @@ import UIKit
             if !error.isEmpty { errorPresented.toggle() }
         }
         
-        guard let beneficiaryAccount = fetchAccount(form: transfer.recipientIBAN) else { return }
+        guard let beneficiaryAccount = fetchAccount(form: transfer.recipientIBAN) else {
+            error = "IBAN does not exists"
+            return
+        }
         
         if BankAccount.Status(rawValue: beneficiaryAccount.status) == .frozen {
             error = "This account is not active"
@@ -121,12 +124,21 @@ import UIKit
     private func getNeededTransferData(from transfers: [BankTransfer]) {
         guard let account else { return }
         _ = transfers.map { transfer in
-            self.transfers.append(.init(id: transfer.id, type: getTransferType(transfer), amount: "\(transfer.amount) \(account.currency)", message: transfer.message))
+            let transferType = transfer.getTransferType(accountId: accountId)
+            
+            var subtitle: String {
+                switch transferType {
+                case .credit:
+                    let receiverName = dbManager?.fetchAccount(accountId: transfer.beneficiaryAccountId)?.name ?? ""
+                    return "To \(receiverName)"
+                case .debit:
+                    let senderName = dbManager?.fetchAccount(accountId: transfer.accountId)?.name ?? ""
+                    return "From \(senderName)"
+                }
+            }
+            
+            self.transfers.append(.init(id: transfer.id, type: transferType.rawValue, amount: "\(transfer.amount) \(account.currency)", subtitle: subtitle))
         }
-    }
-    
-    private func getTransferType(_ transfer: BankTransfer) -> String {
-        return transfer.accountId == accountId ? BankTransfer.TransferType.credit.rawValue : BankTransfer.TransferType.debit.rawValue
     }
     
     private func fetchAccountDetails() {
@@ -134,8 +146,10 @@ import UIKit
     }
     
     private func fetchTransfers() {
+        transfers.removeAll()
+        
         guard let fetched = dbManager?.fetchTransfers(accountId: accountId, fetchLimit: 3) else { return }
-        getNeededTransferData(from: fetched.sorted(by: { $0.createdOn > $1.createdOn }))
+        getNeededTransferData(from: fetched)
     }
     
     private func fetchAccount(form iban: String) -> BankAccount? {

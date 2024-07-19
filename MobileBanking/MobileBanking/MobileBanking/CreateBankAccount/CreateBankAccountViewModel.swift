@@ -55,13 +55,17 @@ let IBANLength = 22
         let nameEmpty = name.trimmed.isEmpty
         let nameContainsSpecialChars = name.containsSpecialCharacters
         
-        let isValidName = !nameEmpty && !nameContainsSpecialChars
+        let isValidName = !nameEmpty && !nameContainsSpecialChars && !doesAccountExist()
         
-        nameError = !nameEmpty && nameContainsSpecialChars ? "Enter a valid name" : nil
+        nameError = doesAccountExist() ? "This name is already taken" : !nameEmpty && nameContainsSpecialChars ? "Enter a valid name" : nil
         
         let isValidCurrency = !currency.isEmpty
                         
         return isValidName && isValidCurrency
+    }
+    
+    private func doesAccountExist() -> Bool {
+        return DatabaseManager.shared.fetchAccount(name: name) != nil
     }
     
     private func generateIBAN() -> String {

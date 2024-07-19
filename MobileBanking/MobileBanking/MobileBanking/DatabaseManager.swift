@@ -49,13 +49,22 @@ class DatabaseManager {
         }
     }
     
+    func fetchAccount(name: String) -> BankAccount? {
+        do {
+            let descriptor = FetchDescriptor<BankAccount>(predicate: #Predicate { $0.name == name })
+            
+            return try modelContext.fetch(descriptor).first
+        } catch {
+            print("Error fetching account details: \(error)")
+            return nil
+        }
+    }
+    
     func fetchTransfers(accountId: String, fetchLimit: Int? = nil) -> [BankTransfer] {
         do {
             var descriptor = FetchDescriptor<BankTransfer>(predicate: #Predicate {
-                if $0.accountId == accountId { return true }
-                else if $0.beneficiaryAccountId == accountId { return true }
-                else { return false }
-            }, sortBy: [SortDescriptor(\.createdOn)])
+                $0.accountId == accountId || $0.beneficiaryAccountId == accountId
+            }, sortBy: [SortDescriptor(\.createdOn, order: .reverse)])
             descriptor.fetchLimit = fetchLimit
             
             return try modelContext.fetch(descriptor)
