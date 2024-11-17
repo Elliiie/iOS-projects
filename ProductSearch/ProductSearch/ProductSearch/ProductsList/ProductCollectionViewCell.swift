@@ -8,12 +8,19 @@
 import Foundation
 import UIKit
 
+private enum Layout {
+    static let TitleFontSize: CGFloat = 14
+    static let DescriptionFontSize: CGFloat = 12
+    static let ImageRation: CGFloat = 0.5
+    static let FavouriteButtonSize: CGFloat = 30
+}
+
 class ProductCollectionViewCell: UICollectionViewCell {
     
     struct Data {
         let title: String
         let description: String
-        let image: UIImage
+        let imageUrl: String
         let isFavourite: Bool
         let isFavouriteTapHandler: (Bool) -> Void
     }
@@ -56,13 +63,13 @@ class ProductCollectionViewCell: UICollectionViewCell {
         pictureView.contentMode = .scaleAspectFit
         contentView.addSubview(pictureView)
         
-        titleLabel.font = .systemFont(ofSize: 14, weight: .bold)
+        titleLabel.font = .systemFont(ofSize: Layout.TitleFontSize, weight: .bold)
         titleLabel.textAlignment = .natural
         titleLabel.textColor = .black
         titleLabel.numberOfLines = 1
         contentView.addSubview(titleLabel)
         
-        descriptionLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        descriptionLabel.font = .systemFont(ofSize: Layout.DescriptionFontSize, weight: .regular)
         descriptionLabel.textAlignment = .natural
         descriptionLabel.textColor = .gray
         descriptionLabel.numberOfLines = 0
@@ -89,7 +96,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
     }
     
     private func setup(data: Data) {
-        pictureView.image = data.image
+        pictureView.load(url: data.imageUrl)
         titleLabel.text = data.title
         descriptionLabel.text = data.description
         
@@ -99,36 +106,36 @@ class ProductCollectionViewCell: UICollectionViewCell {
     private func addConstraints() {
         pictureView.translatesAutoresizingMaskIntoConstraints = false
         let pictureViewConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: pictureView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 8),
-            NSLayoutConstraint(item: pictureView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 8),
-            NSLayoutConstraint(item: pictureView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -8),
-            NSLayoutConstraint(item: pictureView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: 0.5, constant: 0)
+            NSLayoutConstraint(item: pictureView, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: Offset.Medium),
+            NSLayoutConstraint(item: pictureView, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: Offset.Medium),
+            NSLayoutConstraint(item: pictureView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -Offset.Medium),
+            NSLayoutConstraint(item: pictureView, attribute: .height, relatedBy: .equal, toItem: self, attribute: .height, multiplier: Layout.ImageRation, constant: 0)
         ]
         
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         let titleLabelConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: pictureView, attribute: .bottom, multiplier: 1, constant: 8),
-            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 8),
-            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -8)
+            NSLayoutConstraint(item: titleLabel, attribute: .top, relatedBy: .equal, toItem: pictureView, attribute: .bottom, multiplier: 1, constant: Offset.Medium),
+            NSLayoutConstraint(item: titleLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: Offset.Medium),
+            NSLayoutConstraint(item: titleLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -Offset.Medium)
         ]
         
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         var descriptionLabelConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: 4),
-            NSLayoutConstraint(item: descriptionLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: 8),
-            NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -8)
+            NSLayoutConstraint(item: descriptionLabel, attribute: .top, relatedBy: .equal, toItem: titleLabel, attribute: .bottom, multiplier: 1, constant: Offset.Small),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .leading, relatedBy: .equal, toItem: self, attribute: .leading, multiplier: 1, constant: Offset.Medium),
+            NSLayoutConstraint(item: descriptionLabel, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -Offset.Medium)
         ]
-        let descriptionLabelBottomConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -16)
+        let descriptionLabelBottomConstraint = NSLayoutConstraint(item: descriptionLabel, attribute: .bottom, relatedBy: .equal, toItem: self, attribute: .bottom, multiplier: 1, constant: -Offset.Normal)
         descriptionLabelBottomConstraint.priority = .defaultLow
         
         descriptionLabelConstraints.append(descriptionLabelBottomConstraint)
         
         favouriteButton.translatesAutoresizingMaskIntoConstraints = false
         let favouriteButtonConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: favouriteButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30),
-            NSLayoutConstraint(item: favouriteButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30),
-            NSLayoutConstraint(item: favouriteButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: 4),
-            NSLayoutConstraint(item: favouriteButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -4)
+            NSLayoutConstraint(item: favouriteButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: Layout.FavouriteButtonSize),
+            NSLayoutConstraint(item: favouriteButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: Layout.FavouriteButtonSize),
+            NSLayoutConstraint(item: favouriteButton, attribute: .top, relatedBy: .equal, toItem: self, attribute: .top, multiplier: 1, constant: Offset.Small),
+            NSLayoutConstraint(item: favouriteButton, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -Offset.Small)
         ]
         
         addConstraints(pictureViewConstraints)
