@@ -1,0 +1,15 @@
+{
+  "originHash" : "efcfe66831b5e6ba1fbe696f5ac2618689f0c55241f2ce6c40a00c6490f5e2c4",
+  "pins" : [
+    {
+      "identity" : "phyre-apple-pay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://gitlab.com/phyreapp/phyre-apple-pay",
+      "state" : {
+        "revision" : "218312a36dc2fb8ae51f8c5b74eb52344a8f2071",
+        "version" : "5.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

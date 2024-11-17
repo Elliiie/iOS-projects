@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C0D6ADD2CB6AEE4009DDD27 /* TestPackage in Frameworks */ = {isa = PBXBuildFile; productRef = 2C0D6ADC2CB6AEE4009DDD27 /* TestPackage */; };
 		2C310A6B29F15600002C01C1 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C310A6A29F15600002C01C1 /* AudioPlayer.swift */; };
 		2CFC190329F01CEA006C2CBD /* RestartApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFC190229F01CEA006C2CBD /* RestartApp.swift */; };
 		2CFC190529F01CEA006C2CBD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CFC190429F01CEA006C2CBD /* ContentView.swift */; };
@@ -39,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C0D6ADD2CB6AEE4009DDD27 /* TestPackage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +165,9 @@
 				Base,
 			);
 			mainGroup = 2CFC18F629F01CEA006C2CBD;
+			packageReferences = (
+				2C0D6ADB2CB6AEE4009DDD27 /* XCRemoteSwiftPackageReference "TestPackage" */,
+			);
 			productRefGroup = 2CFC190029F01CEA006C2CBD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -397,6 +402,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C0D6ADB2CB6AEE4009DDD27 /* XCRemoteSwiftPackageReference "TestPackage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "git@github.com:Elliiie/TestPackage.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C0D6ADC2CB6AEE4009DDD27 /* TestPackage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C0D6ADB2CB6AEE4009DDD27 /* XCRemoteSwiftPackageReference "TestPackage" */;
+			productName = TestPackage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2CFC18F729F01CEA006C2CBD /* Project object */;
 }

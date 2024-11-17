@@ -1,0 +1,15 @@
+{
+  "originHash" : "3532d5f6e979b041a33b7a767cab82326c106831415bcee7b9323a9103ae276e",
+  "pins" : [
+    {
+      "identity" : "testpackage",
+      "kind" : "remoteSourceControl",
+      "location" : "git@github.com:Elliiie/TestPackage.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "33ac0e1495a9a9a408922337a579ded37817718d"
+      }
+    }
+  ],
+  "version" : 3
+}

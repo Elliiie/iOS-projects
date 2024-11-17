@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		2C0E703B2BD64269003BEB21 /* Color+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0E703A2BD64269003BEB21 /* Color+Extension.swift */; };
+		2C81B7192C64C9C300410288 /* ApplePayProvisioning in Frameworks */ = {isa = PBXBuildFile; productRef = 2C81B7182C64C9C300410288 /* ApplePayProvisioning */; };
 		2CDE52792BCBDDA500A31F12 /* ImageGalleryApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CDE52782BCBDDA500A31F12 /* ImageGalleryApp.swift */; };
 		2CDE527F2BCBDDA700A31F12 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDE527E2BCBDDA700A31F12 /* Assets.xcassets */; };
 		2CDE52822BCBDDA700A31F12 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CDE52812BCBDDA700A31F12 /* Preview Assets.xcassets */; };
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C81B7192C64C9C300410288 /* ApplePayProvisioning in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,6 +130,9 @@
 			dependencies = (
 			);
 			name = ImageGallery;
+			packageProductDependencies = (
+				2C81B7182C64C9C300410288 /* ApplePayProvisioning */,
+			);
 			productName = ImageGallery;
 			productReference = 2CDE52752BCBDDA500A31F12 /* ImageGallery.app */;
 			productType = "com.apple.product-type.application";
@@ -156,6 +161,9 @@
 				Base,
 			);
 			mainGroup = 2CDE526C2BCBDDA500A31F12;
+			packageReferences = (
+				2C81B7172C64C9C300410288 /* XCRemoteSwiftPackageReference "phyre-apple-pay" */,
+			);
 			productRefGroup = 2CDE52762BCBDDA500A31F12 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -396,6 +404,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2C81B7172C64C9C300410288 /* XCRemoteSwiftPackageReference "phyre-apple-pay" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://gitlab.com/phyreapp/phyre-apple-pay";
+			requirement = {
+				kind = exactVersion;
+				version = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2C81B7182C64C9C300410288 /* ApplePayProvisioning */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2C81B7172C64C9C300410288 /* XCRemoteSwiftPackageReference "phyre-apple-pay" */;
+			productName = ApplePayProvisioning;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2CDE526D2BCBDDA500A31F12 /* Project object */;
 }

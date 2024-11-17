@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import PhotosUI
+import ApplePayProvisioning
 
 class CreatePersonViewModel: ObservableObject {
     
@@ -66,6 +67,7 @@ class CreatePersonViewModel: ObservableObject {
     }
     
     func observeSelectedImage() {
+        AddCardToApplePayManager.shared.canAddCardToApplePay(panLastFour: "")
         Task { @MainActor in
             imageData = try? await pickerItem?.loadTransferable(type: Data.self)
         }
