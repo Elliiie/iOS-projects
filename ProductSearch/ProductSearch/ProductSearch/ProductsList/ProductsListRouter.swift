@@ -10,6 +10,7 @@ import UIKit
 
 protocol ProductsListRouting {
     func openFavourites()
+    func openProductDetails(data: ProductCollectionViewCell.Data)
 }
 
 class ProductsListRouter: ProductsListRouting {
@@ -18,5 +19,12 @@ class ProductsListRouter: ProductsListRouting {
     
     func openFavourites() {
         
+    }
+    
+    func openProductDetails(data: ProductCollectionViewCell.Data) {
+        let productDetailsView = ProductDetailsViewController()
+        productDetailsView.data = data
+        
+        view?.navigationController?.pushViewController(productDetailsView, animated: true)
     }
 }

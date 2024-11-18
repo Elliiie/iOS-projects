@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import EasyPeasy
 
 protocol ProductsListViewControlling: UIViewController {
     var data: ProductsListViewController.Data? { get set }
@@ -24,7 +25,13 @@ private enum Layout {
 class ProductsListViewController: UIViewController, ProductsListViewControlling {
  
     struct Data {
-        let productsData: [ProductCollectionViewCell.Data]
+        
+        struct ProductCellData {
+            let data: ProductCollectionViewCell.Data
+            let tapHandler: () -> Void
+        }
+        
+        let productsCellsData: [ProductCellData]
         let favouritesButtonTapHandler: () -> Void
     }
     
@@ -88,6 +95,10 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
         favouriteButton.tintColor = .red
         navigationItem.rightBarButtonItem = favouriteButton
         
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
+        tapGestureRecognizer.cancelsTouchesInView = false
+        view.addGestureRecognizer(tapGestureRecognizer)
+
         addConstraints()
         
         presenter.viewDidLoad()
@@ -103,6 +114,10 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
     
     @objc private func didTapFavourites(sender: UIBarButtonItem) {
         data?.favouritesButtonTapHandler()
+    }
+    
+    @objc func hideKeyboard() {
+        view.endEditing(true)
     }
     
     private func createLayout(for size: CGSize) -> UICollectionViewFlowLayout {
@@ -123,31 +138,24 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
     }
     
     private func addConstraints() {
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        let searchBarConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: searchBar, attribute: .top, relatedBy: .equal, toItem: view.safeAreaLayoutGuide, attribute: .top, multiplier: 1, constant: Offset.Small),
-            NSLayoutConstraint(item: searchBar, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: Offset.Small),
-            NSLayoutConstraint(item: searchBar, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: -Offset.Small),
-            NSLayoutConstraint(item: searchBar, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: Layout.SearchBarHeight)
-        ]
+        searchBar.easy.layout([
+            Top(Offset.Small).to(view.safeAreaLayoutGuide, .top),
+            Leading(Offset.Small),
+            Trailing(Offset.Small),
+            Height(Layout.SearchBarHeight)
+        ])
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        let collectionViewConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: collectionView, attribute: .top, relatedBy: .equal, toItem: searchBar, attribute: .bottom, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: collectionView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: collectionView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: collectionView, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: 0)
-        ]
+        collectionView.easy.layout([
+            Top(Offset.Medium).to(searchBar),
+            Leading(0),
+            Trailing(0),
+            Bottom(Offset.Medium).to(view.safeAreaLayoutGuide, .bottom)
+        ])
         
-        loadingView.translatesAutoresizingMaskIntoConstraints = false
-        let loadingViewConstraints: [NSLayoutConstraint] = [
-            NSLayoutConstraint(item: loadingView, attribute: .centerX, relatedBy: .equal, toItem: view, attribute: .centerX, multiplier: 1, constant: 0),
-            NSLayoutConstraint(item: loadingView, attribute: .centerY, relatedBy: .equal, toItem: view, attribute: .centerY, multiplier: 1, constant: 0)
-        ]
-        
-        view.addConstraints(searchBarConstraints)
-        view.addConstraints(collectionViewConstraints)
-        view.addConstraints(loadingViewConstraints)
+        loadingView.easy.layout([
+            CenterX(),
+            CenterY()
+        ])
     }
 }
 
@@ -160,12 +168,19 @@ extension ProductsListViewController: UISearchBarDelegate {
         presenter.didStartToSearch(text: searchBar.text)
         searchBar.resignFirstResponder()
     }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.setShowsCancelButton(false, animated: true)
+        searchBar.resignFirstResponder()
+        presenter.didCancelSearch()
+    }
 }
 
 extension ProductsListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.productsData.count ?? 0
+        return data?.productsCellsData.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -173,11 +188,16 @@ extension ProductsListViewController: UICollectionViewDataSource, UICollectionVi
             return UICollectionViewCell()
         }
         
-        cell.data = data.productsData[indexPath.row]
+        cell.data = data.productsCellsData[indexPath.row].data
         
         return cell
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let data else { return }
+        
+        data.productsCellsData[indexPath.row].tapHandler()
+    }
 }
 
 extension ProductsListViewController {

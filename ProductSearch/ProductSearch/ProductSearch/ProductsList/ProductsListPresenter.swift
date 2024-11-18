@@ -10,6 +10,7 @@ import Foundation
 protocol ProductsListPresenting {
     func viewDidLoad()
     func didStartToSearch(text: String?)
+    func didCancelSearch()
 }
 
 class ProductsListPresenter: ProductsListPresenting {
@@ -38,6 +39,10 @@ class ProductsListPresenter: ProductsListPresenting {
         }
     }
     
+    func didCancelSearch() {
+        fetchProducts()
+    }
+    
     private func fetchProducts() {
         view?.isLoading = true
         interactor.getProducts { [weak self] result in
@@ -48,13 +53,17 @@ class ProductsListPresenter: ProductsListPresenting {
     }
     
     private func buildViewData(using products: [Product]) {
-        let products: [ProductCollectionViewCell.Data] = products.map { product in
-            return .init(title: product.title, description: product.description, imageUrl: product.thumbnail, isFavourite: false) { favourite in
+        let products: [ProductsListViewController.Data.ProductCellData] = products.map { product in
+            let data: ProductCollectionViewCell.Data = .init(titleSubtileData: .init(title: product.title, description: product.description), pictureData: .init(imageUrl: product.thumbnail, isFavourite: false) { favourite in
                 self.handleFavorite(product: product, isFavourite: favourite)
-            }
+            })
+            
+            return .init(data: data, tapHandler: {
+                self.openProductDetails(data: data)
+            })
         }
         
-        view?.data = .init(productsData: products, favouritesButtonTapHandler: openFavourites)
+        view?.data = .init(productsCellsData: products, favouritesButtonTapHandler: openFavourites)
     }
     
     private func handleFavorite(product: Product, isFavourite: Bool) {
@@ -63,5 +72,9 @@ class ProductsListPresenter: ProductsListPresenting {
     
     private func openFavourites() {
         router.openFavourites()
+    }
+    
+    private func openProductDetails(data: ProductCollectionViewCell.Data) {
+        router.openProductDetails(data: data)
     }
 }
