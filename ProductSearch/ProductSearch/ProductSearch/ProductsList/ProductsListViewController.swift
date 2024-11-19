@@ -21,6 +21,8 @@ private enum Layout {
     static let MaxItemCountInLandscape: CGFloat = 3
     static let RowHeightInPortrait: CGFloat = 250
     static let LandscapeItemWidthPercentage: CGFloat = 0.8
+    static let LandscapeItemHeightPercentage: CGFloat = 1.2
+
 }
 
 private let ProductCollectionViewCellIdentifier = "ProductCollectionViewCellIdentifier"
@@ -89,7 +91,7 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
             layout.itemSize = CGSize(width: size.width - Offset.Normal, height: Layout.RowHeightInPortrait)
         } else {
             let itemWidth = (size.width / Layout.MaxItemCountInLandscape) * Layout.LandscapeItemWidthPercentage
-            layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth * Layout.LandscapeItemHeightPercentage)
         }
         
         layout.minimumLineSpacing = Offset.Medium
