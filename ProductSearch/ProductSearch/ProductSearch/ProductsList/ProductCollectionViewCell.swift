@@ -11,6 +11,7 @@ import EasyPeasy
 
 private enum Layout {
     static let ImageRation: CGFloat = 0.5
+    static let LineHeight: CGFloat = 1
 }
 
 class ProductCollectionViewCell: UICollectionViewCell {
@@ -29,6 +30,7 @@ class ProductCollectionViewCell: UICollectionViewCell {
     
     private let titleSubtitleView = TitleSubtitleView()
     private let pictureView = ImageButtonView()
+    private let lineView = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -56,6 +58,9 @@ class ProductCollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(titleSubtitleView)
         
+        lineView.backgroundColor = .lightGray
+        contentView.addSubview(lineView)
+        
         addConstraints()
     }
     
@@ -75,8 +80,15 @@ class ProductCollectionViewCell: UICollectionViewCell {
         titleSubtitleView.easy.layout([
             Top(Offset.Medium).to(pictureView),
             Leading(Offset.Medium),
+            Trailing(Offset.Medium)
+        ])
+        
+        lineView.easy.layout([
+            Top(Offset.Medium).to(titleSubtitleView),
+            Leading(Offset.Medium),
             Trailing(Offset.Medium),
-            Bottom(>=Offset.Small)
+            Height(Layout.LineHeight),
+            Bottom(Offset.Medium)
         ])
     }
 }

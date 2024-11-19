@@ -2,7 +2,7 @@
 //  ProductsListViewController.swift
 //  ProductSearch
 //
-//  Created by Elena Georgieva on 17.11.24.
+//  Created by Elena Georgieva on 19.11.24.
 //
 
 import Foundation
@@ -10,75 +10,52 @@ import UIKit
 import EasyPeasy
 
 protocol ProductsListViewControlling: UIViewController {
-    var data: ProductsListViewController.Data? { get set }
-    var isLoading: Bool { get set }
+    var data: [ProductsListViewController.Data] { get set }
 }
 
-private let ProductCollectionViewCellIdentifier = "ProductCollectionViewCellIdentifier"
+protocol ProductsListPresenting {
+    func viewDidLoad()
+}
 
 private enum Layout {
     static let MaxItemCountInLandscape: CGFloat = 3
     static let RowHeightInPortrait: CGFloat = 250
-    static let SearchBarHeight: CGFloat = 40
+    static let LandscapeItemWidthPercentage: CGFloat = 0.8
 }
 
+private let ProductCollectionViewCellIdentifier = "ProductCollectionViewCellIdentifier"
+
 class ProductsListViewController: UIViewController, ProductsListViewControlling {
- 
+    
     struct Data {
-        
-        struct ProductCellData {
-            let data: ProductCollectionViewCell.Data
-            let tapHandler: () -> Void
-        }
-        
-        let productsCellsData: [ProductCellData]
-        let favouritesButtonTapHandler: () -> Void
+        let cellData: ProductCollectionViewCell.Data
+        let tapHandler: () -> Void
     }
     
-    var data: ProductsListViewController.Data? {
+    var data: [Data] = [] {
         didSet {
             collectionView.reloadData()
         }
     }
     
-    var isLoading: Bool = false {
-        didSet {
-            collectionView.isHidden = isLoading
-            loadingView.isHidden = !isLoading
-            isLoading ? loadingView.startAnimating() : loadingView.stopAnimating()
-        }
-    }
-    
-    private let searchBar = UISearchBar()
     private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-    private let loadingView = UIActivityIndicatorView(style: .large)
-    private var favouriteButton: UIBarButtonItem!
     
-    private let presenter: ProductsListPresenting
+    private let presenter: ProductsListPresenting?
     
-    init(presenter: ProductsListPresenting) {
+    init(presenter: ProductsListPresenting? = nil) {
         self.presenter = presenter
         
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
-        title = "Search"
-        
-        searchBar.backgroundImage = UIImage()
-        searchBar.placeholder = "Search products"
-        searchBar.delegate = self
-        view.addSubview(searchBar)
-
-        view.addSubview(loadingView)
         
         let layout = createLayout(for: view.frame.size)
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -91,17 +68,9 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
         collectionView.register(ProductCollectionViewCell.self, forCellWithReuseIdentifier: ProductCollectionViewCellIdentifier)
         view.addSubview(collectionView)
 
-        favouriteButton = UIBarButtonItem(image: .init(systemName: "heart.fill"), style: .plain, target: self, action: #selector(didTapFavourites(sender:)))
-        favouriteButton.tintColor = .red
-        navigationItem.rightBarButtonItem = favouriteButton
-        
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard))
-        tapGestureRecognizer.cancelsTouchesInView = false
-        view.addGestureRecognizer(tapGestureRecognizer)
-
         addConstraints()
         
-        presenter.viewDidLoad()
+        presenter?.viewDidLoad()
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -112,14 +81,6 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
         }, completion: nil)
     }
     
-    @objc private func didTapFavourites(sender: UIBarButtonItem) {
-        data?.favouritesButtonTapHandler()
-    }
-    
-    @objc func hideKeyboard() {
-        view.endEditing(true)
-    }
-    
     private func createLayout(for size: CGSize) -> UICollectionViewFlowLayout {
         let layout = UICollectionViewFlowLayout()
         let isPortrait = size.width < size.height
@@ -127,8 +88,8 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
         if isPortrait {
             layout.itemSize = CGSize(width: size.width - Offset.Normal, height: Layout.RowHeightInPortrait)
         } else {
-            let itemWidth = (size.width / Layout.MaxItemCountInLandscape) - Offset.Normal
-            layout.itemSize = CGSize(width: itemWidth, height: itemWidth * 1.5)
+            let itemWidth = (size.width / Layout.MaxItemCountInLandscape) * Layout.LandscapeItemWidthPercentage
+            layout.itemSize = CGSize(width: itemWidth, height: itemWidth)
         }
         
         layout.minimumLineSpacing = Offset.Medium
@@ -138,78 +99,27 @@ class ProductsListViewController: UIViewController, ProductsListViewControlling 
     }
     
     private func addConstraints() {
-        searchBar.easy.layout([
-            Top(Offset.Small).to(view.safeAreaLayoutGuide, .top),
-            Leading(Offset.Small),
-            Trailing(Offset.Small),
-            Height(Layout.SearchBarHeight)
-        ])
-        
-        collectionView.easy.layout([
-            Top(Offset.Medium).to(searchBar),
-            Leading(0),
-            Trailing(0),
-            Bottom(Offset.Medium).to(view.safeAreaLayoutGuide, .bottom)
-        ])
-        
-        loadingView.easy.layout([
-            CenterX(),
-            CenterY()
-        ])
-    }
-}
-
-extension ProductsListViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        presenter.didStartToSearch(text: searchBar.text)
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        presenter.didStartToSearch(text: searchBar.text)
-        searchBar.resignFirstResponder()
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = nil
-        searchBar.setShowsCancelButton(false, animated: true)
-        searchBar.resignFirstResponder()
-        presenter.didCancelSearch()
+        collectionView.easy.layout(Edges().to(view.safeAreaLayoutGuide))
     }
 }
 
 extension ProductsListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data?.productsCellsData.count ?? 0
+        return data.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let data, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCellIdentifier, for: indexPath) as? ProductCollectionViewCell else {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProductCollectionViewCellIdentifier, for: indexPath) as? ProductCollectionViewCell else {
             return UICollectionViewCell()
         }
         
-        cell.data = data.productsCellsData[indexPath.row].data
+        cell.data = data[indexPath.row].cellData
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let data else { return }
-        
-        data.productsCellsData[indexPath.row].tapHandler()
-    }
-}
-
-extension ProductsListViewController {
-    static func build() -> UIViewController {
-        let interactor = ProductsListInteractor()
-        let router = ProductsListRouter()
-        let presenter = ProductsListPresenter(interactor: interactor, router: router)
-        let viewController = ProductsListViewController(presenter: presenter)
-        
-        presenter.view = viewController
-        router.view = viewController
-        
-        return viewController
+        data[indexPath.row].tapHandler()
     }
 }

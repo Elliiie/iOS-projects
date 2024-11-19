@@ -19,10 +19,6 @@ class RequestsManager {
         self.session = URLSession.shared
     }
     
-    func getProducts(completion: @escaping (Result<ProductsResponse, Error>) -> Void) {
-        performRequest(endpoint: "products", completion: completion)
-    }
-    
     func searchProducts(searchWord: String, completion: @escaping (Result<ProductsResponse, Error>) -> Void) {
         performRequest(endpoint: "products/search?q=\(searchWord)", completion: completion)
     }

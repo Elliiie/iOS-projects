@@ -18,12 +18,16 @@ class ImageButtonView: UIView {
     struct Data {
         let imageUrl: String
         let isFavourite: Bool
-        let isFavouriteTapHandler: (Bool) -> Void
+        let isFavouriteTapHandler: ((Bool) -> Void) -> Void
     }
     
     var data: Data? {
         didSet {
-            guard let data else { return }
+            guard let data else {
+                clean()
+                return
+            }
+            
             setup(data: data)
         }
     }
@@ -49,7 +53,7 @@ class ImageButtonView: UIView {
         pictureView.contentMode = .scaleAspectFit
         addSubview(pictureView)
                 
-        favouriteButton.contentMode = .scaleAspectFit
+        favouriteButton.contentMode = .scaleAspectFill
         favouriteButton.addTarget(self, action: #selector(didTapFavourite(_:)), for: .touchUpInside)
         addSubview(favouriteButton)
         
@@ -59,8 +63,9 @@ class ImageButtonView: UIView {
     @objc private func didTapFavourite(_ sender: UIButton)  {
         guard let data else { return }
         
-        data.isFavouriteTapHandler(!data.isFavourite)
-        updateFavouriteButton(isFavourite: !data.isFavourite)
+        data.isFavouriteTapHandler({ saved in
+            self.updateFavouriteButton(isFavourite: saved)
+        })
     }
     
     private func updateFavouriteButton(isFavourite: Bool) {
@@ -71,6 +76,10 @@ class ImageButtonView: UIView {
     private func setup(data: Data) {
         pictureView.load(url: data.imageUrl)
         updateFavouriteButton(isFavourite: data.isFavourite)
+    }
+    
+    private func clean() {
+        pictureView.image = nil
     }
     
     private func addConstraints() {

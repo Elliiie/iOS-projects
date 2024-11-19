@@ -24,6 +24,7 @@ class TitleSubtitleView: UIView {
     var data: Data? {
         didSet {
             titleLabel.text = data?.title
+            
             descriptionLabel.text = data?.description
         }
     }
@@ -49,6 +50,7 @@ class TitleSubtitleView: UIView {
         titleLabel.font = .systemFont(ofSize: Layout.TitleFontSize, weight: .bold)
         titleLabel.textAlignment = .natural
         titleLabel.textColor = .black
+        titleLabel.lineBreakMode = .byTruncatingTail
         titleLabel.numberOfLines = 1
         addSubview(titleLabel)
         
