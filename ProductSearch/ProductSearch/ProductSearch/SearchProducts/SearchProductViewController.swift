@@ -10,7 +10,7 @@ import UIKit
 import EasyPeasy
 
 protocol SearchProductViewControlling: UIViewController {
-    var data: SearchProductViewController.Data? { get set }
+    var data: [ProductsListViewController.Data] { get set }
     var isLoading: Bool { get set }
 }
 
@@ -20,14 +20,9 @@ private enum Layout {
 
 class SearchProductViewController: UIViewController, SearchProductViewControlling {
  
-    struct Data {
-        let productsCellsData: [ProductsListViewController.Data]
-        let favouritesButtonTapHandler: () -> Void
-    }
-    
-    var data: SearchProductViewController.Data? {
+    var data: [ProductsListViewController.Data] = [] {
         didSet {
-            productsList.data = data?.productsCellsData ?? []
+            productsList.data = data
         }
     }
     
@@ -83,8 +78,6 @@ class SearchProductViewController: UIViewController, SearchProductViewControllin
         view.addGestureRecognizer(tapGestureRecognizer)
 
         addConstraints()
-        
-        presenter.viewDidLoad()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,7 +87,7 @@ class SearchProductViewController: UIViewController, SearchProductViewControllin
     }
     
     @objc private func didTapFavourites(sender: UIBarButtonItem) {
-        data?.favouritesButtonTapHandler()
+        presenter.didTapFavourites()
     }
     
     @objc func hideKeyboard() {

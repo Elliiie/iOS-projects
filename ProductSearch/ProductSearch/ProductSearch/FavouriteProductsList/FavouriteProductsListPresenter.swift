@@ -20,6 +20,10 @@ class FavouriteProductsListPresenter: ProductsListPresenting {
     }
     
     func viewDidLoad() {
+        loadData()
+    }
+    
+    private func loadData() {
         interactor.fetchFavouriteProducts { self.buildViewData($0) }
     }
     
@@ -27,7 +31,7 @@ class FavouriteProductsListPresenter: ProductsListPresenting {
         let products: [ProductsListViewController.Data] = products.map { product in
             let data: ProductCollectionViewCell.Data = .init(titleSubtileData: .init(title: product.title, description: product.description), pictureData: .init(imageUrl: product.thumbnail, isFavourite: true) { updater in
                 self.interactor.updateFavourite(product, completion: updater)
-                self.viewDidLoad()
+                self.loadData()
             })
             
             return .init(cellData: data) {

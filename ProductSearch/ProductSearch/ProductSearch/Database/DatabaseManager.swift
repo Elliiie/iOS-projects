@@ -12,7 +12,6 @@ import UIKit
 protocol DatabaseManagertType {
     func update(_ product: Product, completion: (Bool) -> Void)
     func fetchAll(completion: ([Product]) -> Void)
-    func fetchProduct(id: Int, completion: (Product?) -> Void)
 }
 
 class DatabaseManager: DatabaseManagertType {
@@ -51,7 +50,7 @@ class DatabaseManager: DatabaseManagertType {
         }
     }
     
-    func fetchProduct(id: Int, completion: (Product?) -> Void) {
+    private func fetchProduct(id: Int, completion: (Product?) -> Void) {
         guard let context else { return }
         
         let fetchRequest = NSFetchRequest<ProductModel>(entityName: ProductModel.EntityName)

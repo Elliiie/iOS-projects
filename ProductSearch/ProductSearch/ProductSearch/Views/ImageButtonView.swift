@@ -23,10 +23,7 @@ class ImageButtonView: UIView {
     
     var data: Data? {
         didSet {
-            guard let data else {
-                clean()
-                return
-            }
+            guard let data else { return }
             
             setup(data: data)
         }
@@ -76,10 +73,6 @@ class ImageButtonView: UIView {
     private func setup(data: Data) {
         pictureView.load(url: data.imageUrl)
         updateFavouriteButton(isFavourite: data.isFavourite)
-    }
-    
-    private func clean() {
-        pictureView.image = nil
     }
     
     private func addConstraints() {

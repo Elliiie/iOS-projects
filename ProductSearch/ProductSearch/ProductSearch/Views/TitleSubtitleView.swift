@@ -24,7 +24,6 @@ class TitleSubtitleView: UIView {
     var data: Data? {
         didSet {
             titleLabel.text = data?.title
-            
             descriptionLabel.text = data?.description
         }
     }
@@ -75,7 +74,7 @@ class TitleSubtitleView: UIView {
             Top(Offset.Small).to(titleLabel),
             Leading(0),
             Trailing(0),
-            Bottom(Offset.Small)
+            Bottom(0)
         ])
     }
 }

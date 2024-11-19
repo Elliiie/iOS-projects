@@ -8,9 +8,9 @@
 import Foundation
 
 protocol SearchProductPresenting {
-    func viewDidLoad()
     func viewWillAppear()
     func didStartToSearch(text: String?)
+    func didTapFavourites()
 }
 
 class SearchProductPresenter: SearchProductPresenting {
@@ -26,10 +26,6 @@ class SearchProductPresenter: SearchProductPresenting {
         self.router = router
     }
     
-    func viewDidLoad() {
-        buildViewData(using: [], saved: [])
-    }
-    
     func viewWillAppear() {
         loadData()
     }
@@ -39,9 +35,13 @@ class SearchProductPresenter: SearchProductPresenting {
         loadData()
     }
     
+    func didTapFavourites() {
+        router.openFavourites()
+    }
+    
     private func loadData() {
         guard let searchWord, !searchWord.trimmed.isEmpty else {
-            view?.data = .init(productsCellsData: [], favouritesButtonTapHandler: openFavourites)
+            view?.data = []
             return
         }
         
@@ -50,6 +50,9 @@ class SearchProductPresenter: SearchProductPresenting {
             self?.view?.isLoading = false
             guard case .success(let data) = result else { return }
             self?.interactor.fetchFavouriteProducts(completion: { saved in
+                // This check is needed if the user deletes the search text but the request result for the previous search is received afterwards
+                guard let searchWord = self?.searchWord, !searchWord.trimmed.isEmpty else { return }
+                
                 self?.buildViewData(using: data.products, saved: saved)
             })
         }
@@ -66,7 +69,7 @@ class SearchProductPresenter: SearchProductPresenting {
             })
         }
         
-        view?.data = .init(productsCellsData: products, favouritesButtonTapHandler: openFavourites)
+        view?.data = products
     }
     
     private func openFavourites() {

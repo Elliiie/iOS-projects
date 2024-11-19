@@ -159,10 +159,10 @@
 		2C9777FB2CECA672001A50FD /* SearchProducts */ = {
 			isa = PBXGroup;
 			children = (
-				2C4298532CEB286500589D8F /* SearchProductRouter.swift */,
 				2C4298542CEB286500589D8F /* SearchProductViewController.swift */,
 				2C4298522CEB286500589D8F /* SearchProductPresenter.swift */,
 				2C4298512CEB286500589D8F /* SearchProductInteractor.swift */,
+				2C4298532CEB286500589D8F /* SearchProductRouter.swift */,
 			);
 			path = SearchProducts;
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ProductSearch;
+				PRODUCT_BUNDLE_IDENTIFIER = home.ProductSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -421,7 +421,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.ProductSearch;
+				PRODUCT_BUNDLE_IDENTIFIER = home.ProductSearch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

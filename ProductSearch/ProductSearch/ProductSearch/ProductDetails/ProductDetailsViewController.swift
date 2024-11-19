@@ -41,7 +41,9 @@ class ProductDetailsViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-        
+
+        title = "Details"
+                
         view.addSubview(titleSubtitleView)
         view.addSubview(pictureView)
         
@@ -51,7 +53,9 @@ class ProductDetailsViewController: UIViewController {
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
         super.viewWillTransition(to: size, with: coordinator)
         
-        reloadConstraints()
+        coordinator.animate { _ in
+            self.reloadConstraints()
+        }
     }
     
     private func setup(data: ProductCollectionViewCell.Data) {
@@ -74,7 +78,7 @@ class ProductDetailsViewController: UIViewController {
         titleSubtitleView.easy.layout([
             Top(Offset.Medium).to(pictureView).when { self.isInPortrait },
             Top(Offset.Medium).to(view.safeAreaLayoutGuide, .top).when { !self.isInPortrait },
-            Leading(Offset.Medium).when { self.isInPortrait },
+            Leading(Offset.Normal).when { self.isInPortrait },
             Leading(Offset.Normal).to(pictureView).when { !self.isInPortrait },
             Trailing(Offset.Normal).to(view.safeAreaLayoutGuide, .trailing)
         ])
